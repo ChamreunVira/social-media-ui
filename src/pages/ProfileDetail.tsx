@@ -145,9 +145,7 @@ const ProfileDetail = () => {
 
     return (
         <div className="min-h-screen bg-zinc-50">
-            {/* Content — constrained width with real page padding, not a floating card */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
-                {/* Cover Banner — full width, no card wrapper */}
                 <div className="h-48 sm:h-56 rounded-b-md bg-gray-200 relative">
                     <button
                         onClick={() => navigate("/")}

@@ -6,6 +6,7 @@ import { postService } from "../../service/PostService";
 import { toast } from "react-toastify";
 import PopupPostComment from "./CommentModal.";
 import { friendService } from "../../service/friendService";
+import { useNavigate } from "react-router-dom";
 
 interface PostCardProps extends PostResponse {
     onSelectAuthor?: (authorId: number) => void;
@@ -20,6 +21,7 @@ const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image,
     const [likeCount, setLikeCount] = useState<number>(like);
     const [comment, setComment] = useState<boolean>(false);
     const [commentCount, setCommentCount] = useState<number>(comments?.length || 0);
+    const navigate = useNavigate();
 
     const handleDeletePost = async (id: number) => {
         try {
@@ -61,10 +63,10 @@ const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image,
 
     return (
         <>
-            <div className="w-full flex flex-col *:mb-4 z-0 bg-white border border-zinc-100 shadow-sm hover:shadow-md transition-shadow rounded-2xl p-6 mb-4">
+            <div className="w-full flex flex-col *:mb-4 z-0 bg-white border border-zinc-100 hover:shadow-md transition-shadow rounded-md p-6 mb-4">
                 <div className="flex items-center justify-between">
-                    <div 
-                        onClick={() => onSelectAuthor?.(author.userId)}
+                    <div
+                        onClick={() => navigate(`/${author?.nickname}`)}
                         className="flex space-x-3 items-center cursor-pointer group"
                     >
                         <div className="w-10 h-10 rounded-full overflow-hidden bg-zinc-200 shrink-0 border border-zinc-100 flex items-center justify-center font-bold text-zinc-600">
@@ -108,7 +110,7 @@ const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image,
                             className="px-2.5 py-1 text-xs font-medium text-indigo-600 bg-indigo-50 hover:bg-indigo-100 rounded-xl transition-colors flex items-center gap-1"
                             title="Add Friend"
                         >
-                            <UserPlus2 size={15}/>
+                            <UserPlus2 size={15} />
                             <span>Add</span>
                         </button>
                     )}
@@ -128,10 +130,10 @@ const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image,
                                 <source src={`${import.meta.env.VITE_API_URL}/images/${image}`} type="video/mp4" />
                             </video>
                         ) : (
-                            <img 
-                                src={`${import.meta.env.VITE_API_URL}/images/${image}`} 
-                                alt={title} 
-                                className="w-full max-h-96 object-contain hover:scale-102 transition-transform duration-200 cursor-pointer" 
+                            <img
+                                src={`${import.meta.env.VITE_API_URL}/images/${image}`}
+                                alt={title}
+                                className="w-full max-h-96 object-contain hover:scale-102 transition-transform duration-200 cursor-pointer"
                             />
                         )}
                     </div>
@@ -156,11 +158,11 @@ const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image,
             </div>
 
             {comment && (
-                <PopupPostComment 
-                    post={{ id, profile, title, content, image, author, like: likeCount, likeByMe: !!isLike, createdAt, updatedAt }} 
+                <PopupPostComment
+                    post={{ id, profile, title, content, image, author, like: likeCount, likeByMe: !!isLike, createdAt, updatedAt }}
                     onClose={() => {
                         setComment(false);
-                    }} 
+                    }}
                 />
             )}
         </>

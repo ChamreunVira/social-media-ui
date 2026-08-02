@@ -13,6 +13,7 @@ import { Mosaic } from "react-loading-indicators";
 import PostModelPost from "../components/posts/PostModel.tsx";
 import Friends from "../components/Friends.tsx";
 import UserProfileModal from "../components/profile/ProfileModal.tsx";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
     const [posts, setPosts] = useState<PostResponse[]>([]);
@@ -21,6 +22,7 @@ const Home = () => {
     const [loading, setLoading] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
     const { userProfile, isPostModelOpen, setIsPostModelOpen, searchQuery } = useContext<any>(AppContextProvider);
+    const navigate = useNavigate();
 
     const handleFetchPost = async () => {
         setLoading(true);
@@ -100,7 +102,7 @@ const Home = () => {
                                     src={`${import.meta.env.VITE_API_URL}/images/${userProfile?.profile}`}
                                     alt="Profile"
                                     className="w-10 h-10 rounded-full object-cover ring-1 ring-indigo-500 cursor-pointer hover:opacity-90"
-                                    onClick={() => userProfile?.id && setSelectedUserId(userProfile.id)}
+                                    onClick={() => navigate(`/${userProfile?.nickname}`)}
                                 />
                                 <div
                                     onClick={() => setIsPostModelOpen(true)}

@@ -24,8 +24,6 @@ const emptyForm: ProfileFormState = {
     address: '',
 };
 
-// Mirrors the backend @Pattern constraints so users see errors before submitting.
-const NICKNAME_REGEX = /^@[A-Za-z0-9_]{2,30}$/;
 const PHONE_REGEX = /^\+?[0-9]{8,15}$/;
 
 const ProfileForm = () => {
@@ -68,7 +66,6 @@ const ProfileForm = () => {
     };
 
     const handleNicknameChange = (raw: string) => {
-        // Keep the leading "@" glued on so users can't accidentally delete it.
         let next = raw.startsWith('@') ? raw : `@${raw.replace(/^@+/, '')}`;
         next = next.replace(/[^@A-Za-z0-9_]/g, '');
         handleChange('nickname', next);
@@ -79,9 +76,6 @@ const ProfileForm = () => {
 
         if (form.username.trim().length < 3 || form.username.trim().length > 50) {
             next.username = 'Username must be 3–50 characters';
-        }
-        if (form.nickname && !NICKNAME_REGEX.test(form.nickname)) {
-            next.nickname = 'Nickname must start with @ and use only letters, numbers, or underscores (2–30 chars)';
         }
         if (form.bio.length > 500) {
             next.bio = 'Bio must be 500 characters or fewer';
@@ -111,12 +105,12 @@ const ProfileForm = () => {
             setSaving(true);
             const response = await userService.updateProfile({
                 username: form.username.trim(),
-                nickname: form.nickname || undefined,
-                bio: form.bio.trim() || undefined,
-                dob: form.dob || undefined,
-                phone: form.phone.trim() || undefined,
-                gender: form.gender || undefined,
-                address: form.address.trim() || undefined,
+                nickname: form.nickname,
+                bio: form.bio.trim(),
+                dob: form.dob,
+                phone: form.phone.trim(),
+                gender: form.gender,
+                address: form.address.trim(),
             });
 
             if (response.success && response.data) {
@@ -131,7 +125,6 @@ const ProfileForm = () => {
         }
     };
 
-    // --- Loading state ---
     if (loading) {
         return (
             <div className="min-h-screen bg-zinc-50">
@@ -161,7 +154,7 @@ const ProfileForm = () => {
                     >
                         <ArrowLeft size={20} />
                     </button>
-                    <h1 className="px-12 pb-6 text-2xl font-bold text-zinc-900">Edit Profile</h1>
+                    <h1 className="px-12 pb-6 text-2xl font-bold text-zinc-900">កែប្រែ Profile</h1>
                 </div>
 
                 <form onSubmit={handleSubmit} className="px-12 pt-6 max-w-2xl flex flex-col gap-5">
@@ -180,8 +173,8 @@ const ProfileForm = () => {
                             onChange={(e) => handleChange('username', e.target.value)}
                             placeholder="Your display name"
                             className={`w-full px-4 py-2.5 rounded-md border text-sm outline-none transition-colors bg-white ${errors.username
-                                    ? 'border-rose-400 focus:border-rose-500'
-                                    : 'border-zinc-200 focus:border-indigo-500'
+                                ? 'border-rose-400 focus:border-rose-500'
+                                : 'border-zinc-200 focus:border-indigo-500'
                                 }`}
                         />
                         {errors.username && <p className="text-xs text-rose-500 mt-1">{errors.username}</p>}
@@ -198,9 +191,10 @@ const ProfileForm = () => {
                             onChange={(e) => handleNicknameChange(e.target.value)}
                             placeholder="@yourname"
                             className={`w-full px-4 py-2.5 rounded-md border text-sm outline-none transition-colors bg-white ${errors.nickname
-                                    ? 'border-rose-400 focus:border-rose-500'
-                                    : 'border-zinc-200 focus:border-indigo-500'
+                                ? 'border-rose-400 focus:border-rose-500'
+                                : 'border-zinc-200 focus:border-indigo-500'
                                 }`}
+                            required
                         />
                         {errors.nickname ? (
                             <p className="text-xs text-rose-500 mt-1">{errors.nickname}</p>
@@ -221,9 +215,10 @@ const ProfileForm = () => {
                             rows={3}
                             maxLength={500}
                             className={`w-full px-4 py-2.5 rounded-md border text-sm outline-none transition-colors resize-none bg-white ${errors.bio
-                                    ? 'border-rose-400 focus:border-rose-500'
-                                    : 'border-zinc-200 focus:border-indigo-500'
+                                ? 'border-rose-400 focus:border-rose-500'
+                                : 'border-zinc-200 focus:border-indigo-500'
                                 }`}
+
                         />
                         <div className="flex justify-between mt-1">
                             {errors.bio ? <p className="text-xs text-rose-500">{errors.bio}</p> : <span />}
@@ -243,9 +238,10 @@ const ProfileForm = () => {
                                 onChange={(e) => handleChange('dob', e.target.value)}
                                 max={new Date().toISOString().split('T')[0]}
                                 className={`w-full px-4 py-2.5 rounded-md border text-sm outline-none transition-colors bg-white ${errors.dob
-                                        ? 'border-rose-400 focus:border-rose-500'
-                                        : 'border-zinc-200 focus:border-indigo-500'
+                                    ? 'border-rose-400 focus:border-rose-500'
+                                    : 'border-zinc-200 focus:border-indigo-500'
                                     }`}
+                                required
                             />
                             {errors.dob && <p className="text-xs text-rose-500 mt-1">{errors.dob}</p>}
                         </div>
@@ -259,8 +255,8 @@ const ProfileForm = () => {
                                         type="button"
                                         onClick={() => handleChange('gender', g)}
                                         className={`flex-1 py-2.5 rounded-md border text-sm font-medium transition-colors ${form.gender === g
-                                                ? 'bg-indigo-600 border-indigo-600 text-white'
-                                                : 'bg-white border-zinc-200 text-zinc-600 hover:border-indigo-300'
+                                            ? 'bg-indigo-600 border-indigo-600 text-white'
+                                            : 'bg-white border-zinc-200 text-zinc-600 hover:border-indigo-300'
                                             }`}
                                     >
                                         {g === 'M' ? 'Male' : 'Female'}
@@ -281,9 +277,10 @@ const ProfileForm = () => {
                             onChange={(e) => handleChange('phone', e.target.value)}
                             placeholder="+855 12 345 678"
                             className={`w-full px-4 py-2.5 rounded-md border text-sm outline-none transition-colors bg-white ${errors.phone
-                                    ? 'border-rose-400 focus:border-rose-500'
-                                    : 'border-zinc-200 focus:border-indigo-500'
+                                ? 'border-rose-400 focus:border-rose-500'
+                                : 'border-zinc-200 focus:border-indigo-500'
                                 }`}
+                                required
                         />
                         {errors.phone && <p className="text-xs text-rose-500 mt-1">{errors.phone}</p>}
                     </div>
@@ -300,8 +297,8 @@ const ProfileForm = () => {
                             placeholder="City, country"
                             maxLength={255}
                             className={`w-full px-4 py-2.5 rounded-md border text-sm outline-none transition-colors bg-white ${errors.address
-                                    ? 'border-rose-400 focus:border-rose-500'
-                                    : 'border-zinc-200 focus:border-indigo-500'
+                                ? 'border-rose-400 focus:border-rose-500'
+                                : 'border-zinc-200 focus:border-indigo-500'
                                 }`}
                         />
                         {errors.address && <p className="text-xs text-rose-500 mt-1">{errors.address}</p>}

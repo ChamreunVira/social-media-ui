@@ -89,7 +89,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, onClose, on
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
             <div className="absolute inset-0" onClick={onClose}></div>
 
-            <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col relative z-10 animate-in zoom-in-95 duration-200">
+            <div className="bg-white rounded-md w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col relative z-10 animate-in zoom-in-95 duration-200">
                 {/* Header / Close button */}
                 <button
                     onClick={onClose}
@@ -100,13 +100,13 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, onClose, on
 
                 <div className="overflow-y-auto flex-1 custom-scrollbar">
                     {/* Cover Banner */}
-                    <div className="h-36 bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 relative"></div>
+                    <div className="h-36 bg-gray-200 relative"></div>
 
                     {/* Profile Header Info */}
                     <div className="px-6 pb-6 pt-0 relative">
                         <div className="flex flex-col sm:flex-row sm:items-end justify-between -mt-16 mb-4 gap-4">
                             {/* Avatar */}
-                            <div className="w-28 h-28 rounded-full overflow-hidden bg-white p-1.5 shadow-xl border-4 border-white shrink-0">
+                            <div className="w-28 h-28 rounded-full overflow-hidden bg-white shadow-xl border-4 border-white shrink-0">
                                 <div className="w-full h-full rounded-full bg-zinc-200 flex items-center justify-center text-zinc-600 text-3xl font-bold overflow-hidden">
                                     {user?.profile ? (
                                         <img
@@ -127,7 +127,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, onClose, on
                                         <button
                                             disabled={actionLoading}
                                             onClick={handleRemoveFriend}
-                                            className="px-4 py-2 bg-zinc-100 hover:bg-rose-50 hover:text-rose-600 text-zinc-700 rounded-xl font-medium text-sm transition-colors flex items-center gap-2"
+                                            className="px-4 py-2 bg-zinc-100 hover:bg-rose-50 hover:text-rose-600 text-zinc-700 rounded-md font-medium text-sm transition-colors flex items-center gap-2"
                                         >
                                             <UserCheck className="w-4 h-4 text-emerald-500" /> Friend
                                         </button>
@@ -135,7 +135,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, onClose, on
                                         <button
                                             disabled={actionLoading}
                                             onClick={handleAddFriend}
-                                            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium text-sm transition-colors flex items-center gap-2 shadow-md shadow-indigo-200"
+                                            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md font-medium text-sm transition-colors flex items-center gap-2 shadow-md shadow-indigo-200"
                                         >
                                             <UserPlus className="w-4 h-4" /> Add Friend
                                         </button>
@@ -146,10 +146,12 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, onClose, on
 
                         {/* User Details */}
                         <div>
-                            <h2 className="text-2xl font-bold text-zinc-900 flex items-center gap-2">
-                                {user?.username || "Loading..."}
-                            </h2>
-                            <button className="px-2 py-0.5 bg-emerald-100 rounded-sm text-emerald-600">{user?.roles || "User"}</button>
+                            <div className="flex gap-4">
+                                <h2 className="text-2xl font-bold text-zinc-900 flex items-center gap-2">
+                                    {user?.username || "Loading..."}
+                                </h2>
+                                <button className="px-2 py-0.5 text-sm bg-emerald-100 rounded-sm text-emerald-600">{user?.roles || "User"}</button>
+                            </div>
                             <p className="text-sm text-slate-500 flex items-center gap-1.5 mt-1">
                                 {user?.nickname || "No nickname"}
                             </p>
@@ -177,7 +179,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, onClose, on
                         </div>
 
                         {/* Stats Bar */}
-                        <div className="flex items-center gap-6 mt-6 py-3 px-4 bg-zinc-50 rounded-2xl border border-zinc-100">
+                        <div className="flex items-center gap-6 mt-6 py-3 px-4 bg-zinc-50 rounded-md border border-zinc-100">
                             <div className="flex items-center gap-2">
                                 <FileText className="w-4 h-4 text-indigo-500" />
                                 <span className="text-sm font-semibold text-zinc-800">{posts.length}</span>
@@ -196,7 +198,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, onClose, on
                                     <p className="text-zinc-400 text-sm">Loading posts...</p>
                                 </div>
                             ) : posts.length === 0 ? (
-                                <div className="text-center py-10 bg-zinc-50 rounded-2xl border border-dashed border-zinc-200">
+                                <div className="text-center py-10 bg-zinc-50 rounded-md border border-dashed border-zinc-200">
                                     <p className="text-zinc-400 text-sm">No posts shared yet.</p>
                                 </div>
                             ) : (
@@ -205,7 +207,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, onClose, on
                                         <div
                                             key={post.id}
                                             onClick={() => onOpenPost?.(post)}
-                                            className="p-4 rounded-2xl border border-zinc-100 bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                                            className="p-4 rounded-md border border-zinc-100 bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer"
                                         >
                                             <div className="flex justify-between items-start mb-2">
                                                 <h4 className="font-semibold text-zinc-900 text-base">{post.title}</h4>
@@ -214,7 +216,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, onClose, on
                                             <p className="text-sm text-zinc-600 line-clamp-3 mb-3">{post.content}</p>
 
                                             {post.image && (
-                                                <div className="w-full h-44 rounded-xl overflow-hidden bg-zinc-100 mb-3">
+                                                <div className="w-full h-44 rounded-md overflow-hidden bg-zinc-100 mb-3">
                                                     {post.image.endsWith('.mp4') ? (
                                                         <video className="w-full h-full object-cover">
                                                             <source src={`${apiUrl}/images/${post.image}`} type="video/mp4" />
