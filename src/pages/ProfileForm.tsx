@@ -131,30 +131,40 @@ const ProfileForm = () => {
         }
     };
 
+    // --- Loading state ---
     if (loading) {
         return (
-            <div className="min-h-screen bg-zinc-50 flex items-center justify-center">
-                <Loader2 className="w-6 h-6 text-indigo-500 animate-spin" />
+            <div className="min-h-screen bg-zinc-50">
+                <div className="h-48 sm:h-56 bg-zinc-200 animate-pulse" />
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="px-12 max-w-2xl">
+                        <div className="h-5 w-40 bg-zinc-200 rounded-full mt-6 animate-pulse" />
+                        <div className="h-4 w-full bg-zinc-200 rounded-full mt-4 animate-pulse" />
+                        <div className="h-4 w-full bg-zinc-200 rounded-full mt-3 animate-pulse" />
+                        <div className="h-4 w-2/3 bg-zinc-200 rounded-full mt-3 animate-pulse" />
+                    </div>
+                </div>
             </div>
         );
     }
 
     return (
         <div className="min-h-screen bg-zinc-50">
-            <div className="w-full max-w-2xl mx-auto bg-white min-h-screen sm:min-h-0 sm:my-6 sm:rounded-3xl sm:shadow-xl overflow-hidden">
-                {/* Header */}
-                <div className="h-28 bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 relative flex items-end">
+            {/* Content — constrained width with real page padding, matching the profile page */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
+                {/* Banner — full width, no card wrapper */}
+                <div className="h-48 sm:h-56 rounded-b-md bg-gray-200 relative flex items-end">
                     <button
                         type="button"
                         onClick={() => navigate(-1)}
-                        className="absolute top-4 left-4 p-2 bg-black/20 hover:bg-black/30 rounded-full text-white transition-colors backdrop-blur-md"
+                        className="absolute top-5 left-4 sm:left-6 p-2 bg-black/20 hover:bg-black/30 rounded-full text-white transition-colors backdrop-blur-md"
                     >
                         <ArrowLeft size={20} />
                     </button>
-                    <h1 className="text-white font-bold text-xl px-6 pb-4">Edit Profile</h1>
+                    <h1 className="px-12 pb-6 text-2xl font-bold text-zinc-900">Edit Profile</h1>
                 </div>
 
-                <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-5">
+                <form onSubmit={handleSubmit} className="px-12 pt-6 max-w-2xl flex flex-col gap-5">
                     <p className="text-sm text-zinc-500 -mt-2">
                         Fill in the details you'd like other people to see on your profile.
                     </p>
@@ -169,11 +179,10 @@ const ProfileForm = () => {
                             value={form.username}
                             onChange={(e) => handleChange('username', e.target.value)}
                             placeholder="Your display name"
-                            className={`w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-colors ${
-                                errors.username
+                            className={`w-full px-4 py-2.5 rounded-md border text-sm outline-none transition-colors bg-white ${errors.username
                                     ? 'border-rose-400 focus:border-rose-500'
                                     : 'border-zinc-200 focus:border-indigo-500'
-                            }`}
+                                }`}
                         />
                         {errors.username && <p className="text-xs text-rose-500 mt-1">{errors.username}</p>}
                     </div>
@@ -188,16 +197,17 @@ const ProfileForm = () => {
                             value={form.nickname}
                             onChange={(e) => handleNicknameChange(e.target.value)}
                             placeholder="@yourname"
-                            className={`w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-colors ${
-                                errors.nickname
+                            className={`w-full px-4 py-2.5 rounded-md border text-sm outline-none transition-colors bg-white ${errors.nickname
                                     ? 'border-rose-400 focus:border-rose-500'
                                     : 'border-zinc-200 focus:border-indigo-500'
-                            }`}
+                                }`}
                         />
                         {errors.nickname ? (
                             <p className="text-xs text-rose-500 mt-1">{errors.nickname}</p>
                         ) : (
-                            <p className="text-xs text-zinc-400 mt-1">This is how people find your profile — letters, numbers, and underscores only.</p>
+                            <p className="text-xs text-zinc-400 mt-1">
+                                This is how people find your profile — letters, numbers, and underscores only.
+                            </p>
                         )}
                     </div>
 
@@ -210,18 +220,13 @@ const ProfileForm = () => {
                             placeholder="Tell people a bit about yourself"
                             rows={3}
                             maxLength={500}
-                            className={`w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-colors resize-none ${
-                                errors.bio
+                            className={`w-full px-4 py-2.5 rounded-md border text-sm outline-none transition-colors resize-none bg-white ${errors.bio
                                     ? 'border-rose-400 focus:border-rose-500'
                                     : 'border-zinc-200 focus:border-indigo-500'
-                            }`}
+                                }`}
                         />
                         <div className="flex justify-between mt-1">
-                            {errors.bio ? (
-                                <p className="text-xs text-rose-500">{errors.bio}</p>
-                            ) : (
-                                <span />
-                            )}
+                            {errors.bio ? <p className="text-xs text-rose-500">{errors.bio}</p> : <span />}
                             <p className="text-xs text-zinc-400">{form.bio.length}/500</p>
                         </div>
                     </div>
@@ -237,11 +242,10 @@ const ProfileForm = () => {
                                 value={form.dob}
                                 onChange={(e) => handleChange('dob', e.target.value)}
                                 max={new Date().toISOString().split('T')[0]}
-                                className={`w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-colors ${
-                                    errors.dob
+                                className={`w-full px-4 py-2.5 rounded-md border text-sm outline-none transition-colors bg-white ${errors.dob
                                         ? 'border-rose-400 focus:border-rose-500'
                                         : 'border-zinc-200 focus:border-indigo-500'
-                                }`}
+                                    }`}
                             />
                             {errors.dob && <p className="text-xs text-rose-500 mt-1">{errors.dob}</p>}
                         </div>
@@ -254,11 +258,10 @@ const ProfileForm = () => {
                                         key={g}
                                         type="button"
                                         onClick={() => handleChange('gender', g)}
-                                        className={`flex-1 py-2.5 rounded-xl border text-sm font-medium transition-colors ${
-                                            form.gender === g
+                                        className={`flex-1 py-2.5 rounded-md border text-sm font-medium transition-colors ${form.gender === g
                                                 ? 'bg-indigo-600 border-indigo-600 text-white'
-                                                : 'border-zinc-200 text-zinc-600 hover:border-indigo-300'
-                                        }`}
+                                                : 'bg-white border-zinc-200 text-zinc-600 hover:border-indigo-300'
+                                            }`}
                                     >
                                         {g === 'M' ? 'Male' : 'Female'}
                                     </button>
@@ -277,11 +280,10 @@ const ProfileForm = () => {
                             value={form.phone}
                             onChange={(e) => handleChange('phone', e.target.value)}
                             placeholder="+855 12 345 678"
-                            className={`w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-colors ${
-                                errors.phone
+                            className={`w-full px-4 py-2.5 rounded-md border text-sm outline-none transition-colors bg-white ${errors.phone
                                     ? 'border-rose-400 focus:border-rose-500'
                                     : 'border-zinc-200 focus:border-indigo-500'
-                            }`}
+                                }`}
                         />
                         {errors.phone && <p className="text-xs text-rose-500 mt-1">{errors.phone}</p>}
                     </div>
@@ -297,21 +299,20 @@ const ProfileForm = () => {
                             onChange={(e) => handleChange('address', e.target.value)}
                             placeholder="City, country"
                             maxLength={255}
-                            className={`w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-colors ${
-                                errors.address
+                            className={`w-full px-4 py-2.5 rounded-md border text-sm outline-none transition-colors bg-white ${errors.address
                                     ? 'border-rose-400 focus:border-rose-500'
                                     : 'border-zinc-200 focus:border-indigo-500'
-                            }`}
+                                }`}
                         />
                         {errors.address && <p className="text-xs text-rose-500 mt-1">{errors.address}</p>}
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center gap-3 mt-2">
+                    <div className="flex items-center gap-3 mt-2 pb-4">
                         <button
                             type="submit"
                             disabled={saving}
-                            className="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white rounded-xl font-semibold text-sm transition-colors flex items-center justify-center gap-2"
+                            className="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white rounded-md font-semibold text-sm transition-colors flex items-center justify-center gap-2"
                         >
                             {saving && <Loader2 className="w-4 h-4 animate-spin" />}
                             {saving ? 'Saving...' : 'Save Profile'}
@@ -320,7 +321,7 @@ const ProfileForm = () => {
                             type="button"
                             onClick={() => navigate(-1)}
                             disabled={saving}
-                            className="px-5 py-3 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-semibold text-sm transition-colors"
+                            className="px-5 py-3 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-md font-semibold text-sm transition-colors"
                         >
                             Cancel
                         </button>

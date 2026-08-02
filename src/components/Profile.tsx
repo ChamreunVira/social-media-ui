@@ -18,7 +18,7 @@ const Profile: React.FC<ProfileProps> = () => {
                 onClick={handleProfileClick}
                 className="w-full flex items-center space-x-3 bg-white border border-zinc-100 hover:border-indigo-100 rounded-md p-4 cursor-pointer transition-all hover:shadow-md group"
             >
-                <div className="w-12 h-12 ring-1 ringh--indigo-500 rounded-full overflow-hidden bg-zinc-100 shrink-0 border border-zinc-100 flex items-center justify-center font-bold text-zinc-600">
+                <div className="w-12 h-12 ring-1 ring-indigo-500 rounded-full overflow-hidden bg-zinc-100 shrink-0 border border-zinc-100 flex items-center justify-center font-bold text-zinc-600">
                     {userProfile?.profile ? (
                         <img
                             src={`${import.meta.env.VITE_API_URL}/images/${userProfile.profile}`}

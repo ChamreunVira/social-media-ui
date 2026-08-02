@@ -96,7 +96,7 @@ const PostModelPost: React.FC<PostModelProps> = ({ onPostCreated }) => {
                 name="title"
                 value={data.title}
                 onChange={handleChange}
-                placeholder="Give your post a title..."
+                placeholder="ចំណងជើង..."
                 className="w-full px-3 py-1.5 text-lg placeholder:text-zinc-400 border-none focus:ring-0 p-0 bg-transparent text-zinc-800"
               />
             </div>
@@ -107,7 +107,7 @@ const PostModelPost: React.FC<PostModelProps> = ({ onPostCreated }) => {
                 name="content"
                 value={data.content}
                 onChange={handleChange}
-                placeholder="What's is on your mind?"
+                placeholder="អត្ថបទអំពីអ្វីដែលអ្នកចង់ចែករំលែក..."
                 className="w-full h-full min-h-50 p-3 resize-none text-base text-zinc-600 placeholder:text-zinc-400 border-none focus:ring-0 p-0 bg-transparent"
               ></textarea>
             </div>
@@ -152,7 +152,7 @@ const PostModelPost: React.FC<PostModelProps> = ({ onPostCreated }) => {
           <div className="px-6 py-4 bg-zinc-50/50 border-t border-zinc-100 flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <div className="text-xs text-zinc-400 font-medium px-2 py-1 bg-zinc-100 rounded-md">
-                Add to your post
+                បន្ថែមទៅក្នុង post របស់អ្នក
               </div>
             </div>
 
@@ -169,11 +169,11 @@ const PostModelPost: React.FC<PostModelProps> = ({ onPostCreated }) => {
               {isLoading ? (
                 <>
                   <Loader2 size={18} className="animate-spin" />
-                  <span>Posting...</span>
+                  <span>កុំពុងបង្ហោះ...</span>
                 </>
               ) : (
                 <>
-                  <span>Post</span>
+                  <span className="text-md font-semibold">បង្ហោះ</span>
                   <Send size={16} />
                 </>
               )}
