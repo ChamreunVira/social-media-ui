@@ -1,15 +1,32 @@
 import React, { useContext } from 'react'
 import { AppContextProvider } from '../context/AppContext';
 
-const Profile: React.FC = () => {
+interface ProfileProps {
+    onOpenProfile?: (userId: number) => void;
+}
+
+const Profile: React.FC<ProfileProps> = ({ onOpenProfile }) => {
     const {userProfile} = useContext<any>(AppContextProvider);
     return (
         <>
-            <div className="w-full flex items-center space-x-2 bg-zinc-50 rounded-xl shadow-sm p-4">
-                <img src={`${import.meta.env.VITE_API_URL}/images/${userProfile?.profile}`} alt="" className="profile"/>
-                <div className="overflow-hidden">
-                    <h4 className="text-[1.05rem] font-medium text-slate-800/80">{userProfile?.username}</h4>
-                    <p className="text-slate-800/50 text-sm truncate">{userProfile?.email}</p>
+            <div 
+                onClick={() => userProfile?.id && onOpenProfile?.(userProfile.id)}
+                className="w-full flex items-center space-x-3 bg-white border border-zinc-100 hover:border-indigo-100 rounded-2xl shadow-sm p-4 cursor-pointer transition-all hover:shadow-md group"
+            >
+                <div className="w-12 h-12 rounded-full overflow-hidden bg-zinc-100 shrink-0 border border-zinc-100 flex items-center justify-center font-bold text-zinc-600">
+                    {userProfile?.profile ? (
+                        <img 
+                            src={`${import.meta.env.VITE_API_URL}/images/${userProfile.profile}`} 
+                            alt={userProfile.username} 
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                        />
+                    ) : (
+                        userProfile?.username?.[0]?.toUpperCase() || 'U'
+                    )}
+                </div>
+                <div className="overflow-hidden leading-tight">
+                    <h4 className="text-base font-semibold text-zinc-900 group-hover:text-indigo-600 transition-colors truncate">{userProfile?.username}</h4>
+                    <p className="text-zinc-500 text-xs truncate mt-0.5">{userProfile?.email}</p>
                 </div>
             </div>
         </>

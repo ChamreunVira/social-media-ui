@@ -22,6 +22,10 @@ class AuthService {
     public getProfile(): Promise<ApiResponse<UserResponse>> {
         return api.get(`${this.endpoint}/profile`);
     }
+
+    public getUserById(userId: number): Promise<ApiResponse<UserResponse>> {
+        return api.get(`${this.endpoint}/user/${userId}`);
+    }
     
     public isAuthenticated(): Promise<boolean> {
         return api.get(`${this.endpoint}/is-authenticated`);

@@ -22,30 +22,42 @@ const PopupPostComment: React.FC<PopupPostProps> = ({ post, onClose }) => {
     const [comments, setComments] = useState<CommentResponse[]>([]);
 
     const handlePostComment = async () => {
+        if (!data.content.trim()) return;
         try {
             setIsLoading(true);
             const response = await commentService.comment(id, data);
             if (response.success) {
-                handleFetchComment(id);
+                setData({ content: "" });
+                await handleFetchComment(id);
             }
-
         } catch (e: any) {
-            console.log("error");
+            console.log("error posting comment", e);
         } finally {
             setIsLoading(false);
         }
     }
 
     const handleFetchComment = async (id: number) => {
-        const response = await commentService.allComment(id);
-        if (response.success) {
-            setComments(response.data);
+        try {
+            const response = await commentService.allComment(id);
+            if (response.success && response.data) {
+                setComments(response.data);
+            }
+        } catch (e) {
+            console.log("error fetching comments", e);
         }
     }
 
     useEffect(() => {
         handleFetchComment(id);
-    }, []);
+    }, [id]);
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handlePostComment();
+        }
+    }
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
@@ -81,17 +93,15 @@ const PopupPostComment: React.FC<PopupPostProps> = ({ post, onClose }) => {
                     <div className="p-6">
                         {/* Author Info */}
                         <div className="flex items-center space-x-3 mb-6">
-                            <div className="w-12 h-12 rounded-full overflow-hidden bg-zinc-200 shrink-0 border border-zinc-100">
-                                {author.profile && author.profile.endsWith('.mp4') ? (
-                                    <video autoPlay loop muted className="w-full h-full object-cover">
-                                        <source src={`${apiUrl}/images/${author.profile}`} />
-                                    </video>
-                                ) : (
+                            <div className="w-12 h-12 rounded-full overflow-hidden bg-zinc-200 shrink-0 border border-zinc-100 flex items-center justify-center font-bold text-zinc-600">
+                                {author.profile ? (
                                     <img
                                         src={`${apiUrl}/images/${author.profile}`}
                                         alt={author.username}
                                         className="w-full h-full object-cover"
                                     />
+                                ) : (
+                                    author.username?.[0]?.toUpperCase() || 'U'
                                 )}
                             </div>
                             <div>
@@ -121,12 +131,16 @@ const PopupPostComment: React.FC<PopupPostProps> = ({ post, onClose }) => {
                                 {comments && comments.length > 0 ? (
                                     comments.map((comment) => (
                                         <div key={comment.id} className="flex space-x-3">
-                                            {/* Avatar Placeholder for commenter */}
-                                            <div className="w-8 h-8 ring-1 ring-indigo-500 shrink-0 rounded-full overflow-hidden">
-                                                <img src={`${apiUrl}/images/${comment.image}`} className="object-cover" />
+                                            {/* Avatar for commenter */}
+                                            <div className="w-8 h-8 ring-1 ring-indigo-500 shrink-0 rounded-full overflow-hidden bg-indigo-100 flex items-center justify-center text-xs font-bold text-indigo-600">
+                                                {comment.profile || comment.image ? (
+                                                    <img src={`${apiUrl}/images/${comment.profile || comment.image}`} className="w-full h-full object-cover" />
+                                                ) : (
+                                                    comment.username?.[0]?.toUpperCase() || 'U'
+                                                )}
                                             </div>
                                             <div className="flex-1">
-                                                <div className="bg-zinc-50 p-3 rounded-2xl rounded-tl-none">
+                                                <div className="bg-zinc-50 p-3 rounded-2xl rounded-tl-none border border-zinc-100">
                                                     <div className="flex justify-between items-baseline mb-1">
                                                         <span className="font-semibold text-sm text-zinc-900">{comment.username}</span>
                                                     </div>
@@ -140,7 +154,7 @@ const PopupPostComment: React.FC<PopupPostProps> = ({ post, onClose }) => {
                                     ))
                                 ) : (
                                     <div className="text-center py-10 bg-zinc-50/50 rounded-xl border border-dashed border-zinc-200">
-                                        <p className="text-zinc-400 text-sm">No comments yet.</p>
+                                        <p className="text-zinc-400 text-sm">No comments yet. Be the first to comment!</p>
                                     </div>
                                 )}
                             </div>
@@ -153,16 +167,19 @@ const PopupPostComment: React.FC<PopupPostProps> = ({ post, onClose }) => {
                     <div className="flex space-x-3">
                         <div className="flex-1 relative">
                             <input
+                                value={data.content}
                                 onChange={(e) => setData({ content: e.target.value })}
+                                onKeyDown={handleKeyDown}
                                 type="text"
                                 placeholder="Add a comment..."
-                                className="w-full bg-zinc-50 border-transparent hover:bg-zinc-100 focus:bg-white focus:border-indigo-500/30 focus:ring-4 focus:ring-indigo-500/10 rounded-xl px-4 py-3 text-sm outline-none transition-all placeholder:text-zinc-400"
+                                className="w-full bg-zinc-50 border-zinc-200 hover:bg-zinc-100 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 rounded-xl px-4 py-3 text-sm outline-none transition-all placeholder:text-zinc-400 border"
                             />
                         </div>
                         <button
+                            disabled={isLoading || !data.content.trim()}
                             onClick={handlePostComment}
-                            className="px-4 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl transition-colors flex items-center justify-center shrink-0 font-medium text-sm">
-                            Post <Send size={16} className="ml-2" />
+                            className="px-5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white rounded-xl transition-colors flex items-center justify-center shrink-0 font-medium text-sm">
+                            {isLoading ? "Posting..." : "Post"} <Send size={16} className="ml-2" />
                         </button>
                     </div>
                 </div>

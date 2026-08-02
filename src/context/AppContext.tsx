@@ -11,6 +11,7 @@ const AppContext: React.FC<React.PropsWithChildren> = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [userProfile, setUserProfile] = useState<UserResponse | null>(null);
     const [isPostModelOpen , setIsPostModelOpen] = useState<boolean>(false);
+    const [searchQuery, setSearchQuery] = useState<string>("");
     const navigate = useNavigate();
 
 
@@ -45,7 +46,8 @@ const AppContext: React.FC<React.PropsWithChildren> = ({ children }) => {
     const contextValue = {
         isLoggedIn, setIsLoggedIn,
         userProfile, setUserProfile,
-        isPostModelOpen , setIsPostModelOpen
+        isPostModelOpen , setIsPostModelOpen,
+        searchQuery, setSearchQuery
     }
 
     return (

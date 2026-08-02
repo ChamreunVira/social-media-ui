@@ -3,10 +3,11 @@ export interface ComemntRequest {
 }
 
 export interface CommentResponse {
-    id: number,
-    content: string,
-    createAt: string,
-    image: string,
-    userId: string,
-    username: string
+    id: number;
+    content: string;
+    createAt: string;
+    image?: string;
+    profile?: string;
+    userId: number;
+    username: string;
 }

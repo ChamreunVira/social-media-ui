@@ -72,7 +72,7 @@ const PostModelPost: React.FC<PostModelProps> = ({ onPostCreated }) => {
     <section className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
       <div
         ref={modelRef}
-        className="w-full max-w-xl bg-white rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
+        className="w-full max-w-xl p-6 bg-white rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
       >
         {/* Header */}
         <div className="px-6 py-4 flex justify-between items-center border-b border-zinc-100 bg-zinc-50/50">
@@ -97,7 +97,7 @@ const PostModelPost: React.FC<PostModelProps> = ({ onPostCreated }) => {
                 value={data.title}
                 onChange={handleChange}
                 placeholder="Give your post a title..."
-                className="w-full text-xl font-bold placeholder:text-zinc-400 border-none focus:ring-0 p-0 bg-transparent text-zinc-800"
+                className="w-full px-3 py-1.5 text-lg placeholder:text-zinc-400 border-none focus:ring-0 p-0 bg-transparent text-zinc-800"
               />
             </div>
 
@@ -108,7 +108,7 @@ const PostModelPost: React.FC<PostModelProps> = ({ onPostCreated }) => {
                 value={data.content}
                 onChange={handleChange}
                 placeholder="What's is on your mind?"
-                className="w-full h-full min-h-35 resize-none text-base text-zinc-600 placeholder:text-zinc-400 border-none focus:ring-0 p-0 bg-transparent"
+                className="w-full h-full min-h-35 p-3 resize-none text-base text-zinc-600 placeholder:text-zinc-400 border-none focus:ring-0 p-0 bg-transparent"
               ></textarea>
             </div>
 

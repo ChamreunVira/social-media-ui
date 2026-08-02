@@ -1,13 +1,15 @@
+import type { UserResponse } from "./auth";
 import type { CommentResponse } from "./comment";
 
 export interface PostResponse {
     id: number,
     title: string,
+    profile: UserResponse,
     content: string,
     image: string,
     author: {
         userId: number,
-        username: string
+        username: string,
         profile: string
     },
     comments?: CommentResponse[],
