@@ -136,7 +136,7 @@ const Friends: React.FC<FriendsProps> = ({ onSelectUser }) => {
         <div className="flex flex-col gap-4 w-full">
             {/* Pending Friend Requests */}
             {pending.length > 0 && (
-                <div className="bg-white rounded-2xl p-4 border border-zinc-100 shadow-sm">
+                <div className="bg-white rounded-md p-4 border border-zinc-100">
                     <div className="flex items-center justify-between mb-3">
                         <h3 className="font-semibold text-zinc-800 text-sm flex items-center gap-2">
                             <UserCheck className="w-4 h-4 text-indigo-600" /> Friend Requests
@@ -205,7 +205,7 @@ const Friends: React.FC<FriendsProps> = ({ onSelectUser }) => {
             )}
 
             {/* Friend Suggestions (Showing at least 5 users) */}
-            <div className="bg-white rounded-2xl p-4 border border-zinc-100 shadow-sm">
+            <div className="bg-white rounded-md p-4 border border-zinc-100">
                 <div className="flex items-center justify-between mb-3">
                     <h3 className="font-semibold text-zinc-800 text-sm flex items-center gap-2">
                         <UserPlus className="w-4 h-4 text-indigo-500" /> Suggested Friends
@@ -230,7 +230,7 @@ const Friends: React.FC<FriendsProps> = ({ onSelectUser }) => {
                         {displayedSuggestions.map((user) => {
                             const isSent = sentRequests.includes(user.userId);
                             return (
-                                <div key={user.userId} className="flex items-center justify-between gap-3 p-1.5 rounded-xl hover:bg-zinc-50 transition-colors">
+                                <div key={user.userId} className="flex items-center justify-between gap-3 p-1.5 rounded-md hover:bg-zinc-50 transition-colors">
                                     <div 
                                         onClick={() => onSelectUser?.(user.userId)}
                                         className="flex items-center gap-2.5 cursor-pointer min-w-0 flex-1"
@@ -277,10 +277,10 @@ const Friends: React.FC<FriendsProps> = ({ onSelectUser }) => {
             </div>
 
             {/* Friends List */}
-            <div className="bg-white rounded-2xl p-4 border border-zinc-100 shadow-sm">
+            <div className="bg-white rounded-md p-4 border border-zinc-100">
                 <div className="flex items-center justify-between mb-3">
                     <h3 className="font-semibold text-zinc-800 text-sm flex items-center gap-2">
-                        <Users className="w-4 h-4 text-slate-600" /> Friends
+                        <Users className="w-4 h-4 text-indigo-500" /> Friends
                     </h3>
                     <span className="px-2 py-0.5 bg-zinc-100 text-zinc-600 text-xs font-semibold rounded-full">
                         {friends.length}
@@ -291,7 +291,7 @@ const Friends: React.FC<FriendsProps> = ({ onSelectUser }) => {
                 ) : (
                     <div className="flex flex-col gap-2">
                         {friends.map((friend) => (
-                            <div key={friend.userId} className="flex items-center justify-between gap-3 p-1.5 rounded-xl hover:bg-zinc-50 transition-colors group">
+                            <div key={friend.userId} className="flex items-center justify-between gap-3 p-1.5 rounded-md hover:bg-zinc-50 transition-colors group">
                                 <div 
                                     onClick={() => onSelectUser?.(friend.userId)}
                                     className="flex items-center gap-2.5 cursor-pointer min-w-0 flex-1"

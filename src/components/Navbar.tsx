@@ -9,7 +9,6 @@ import { useClickOutside } from "../hooks/useClickOutside"
 const Navbar: React.FC = () => {
     const { userProfile, isLoggedIn, setIsLoggedIn, setUserProfile, searchQuery, setSearchQuery } = useContext<any>(AppContextProvider);
     const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
-    const { isPostModelOpen, setIsPostModelOpen } = useContext<any>(AppContextProvider);
     const dropDownRef = useRef<any>(null);
     const navigate = useNavigate();
 
@@ -29,9 +28,6 @@ const Navbar: React.FC = () => {
         }
     }
 
-    const handlePost = () => {
-        setIsPostModelOpen(!isPostModelOpen);
-    }
 
     return (
         <header className="sticky top-0 left-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-100">
@@ -55,18 +51,12 @@ const Navbar: React.FC = () => {
 
                 {userProfile && isLoggedIn ? (
                     <div className="flex gap-3 items-center">
-                        <button
-                            onClick={handlePost}
-                            className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium px-4 py-2 rounded-xl transition-colors shadow-sm shadow-indigo-200"
-                        >
-                            Add Post
-                        </button>
                         <div className="relative" ref={dropDownRef}>
                             <img
                                 onClick={() => setIsDropDownOpen(!isDropDownOpen)}
                                 src={`${import.meta.env.VITE_API_URL}/images/${userProfile?.profile}`} 
                                 alt="Avatar" 
-                                className="w-9 h-9 rounded-full object-cover cursor-pointer border border-zinc-200 hover:ring-2 hover:ring-indigo-500/20 transition-all" 
+                                className="w-9 h-9 rounded-full ring-1 ring-indigo-500 object-cover cursor-pointer border border-zinc-200 hover:ring-2 hover:ring-indigo-500/20 transition-all" 
                             />
                             {isDropDownOpen && (
                                 <div className="absolute right-0 mt-2 w-48 shadow-lg rounded-2xl bg-white border border-zinc-100 p-2 z-50">

@@ -10,6 +10,7 @@ export interface PostResponse {
     author: {
         userId: number,
         username: string,
+        nickname?: string,
         profile: string
     },
     comments?: CommentResponse[],

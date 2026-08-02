@@ -34,14 +34,9 @@ const items: Items[] = [
 
 const Sidebar: React.FC = () => {
 
-    const { isPostModelOpen, setIsPostModelOpen } = useContext<any>(AppContextProvider);
-    const handlePost = () => {
-        setIsPostModelOpen(!isPostModelOpen);
-    }
-
     return (
         <>
-            <div className="w-full flex flex-col py-2 bg-zinc-50 rounded-xl shadow-sm">
+            <div className="w-full flex flex-col py-2 bg-white rounded-md">
                 {items.map((item, i) => (
                     <Link key={i} to={item.path}>
                            <div className="flex mb-1 gap-4 w-full group items-center py-4 hover:text-linear hover:border-l-6 hover:border-indigo-500/90 hover:border-solid  bg-linear-to-r hover:from-indigo-200 hover:to-transparent transition-all duration-75 cursor-pointer">
@@ -52,11 +47,6 @@ const Sidebar: React.FC = () => {
                         </div>
                     </Link>
                 ))}
-            </div>
-            <div
-                onClick={handlePost}
-                className="btn w-full py-3.5 text-center">
-                Create Post
             </div>
         </>
     )

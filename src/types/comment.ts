@@ -10,4 +10,5 @@ export interface CommentResponse {
     profile?: string;
     userId: number;
     username: string;
+    nickname?: string;
 }

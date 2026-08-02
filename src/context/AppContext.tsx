@@ -20,6 +20,7 @@ const AppContext: React.FC<React.PropsWithChildren> = ({ children }) => {
         try {
             const response = await atuhService.getProfile();
             if (response.success) {
+                console.log(response.data)
                 setUserProfile(response.data);
             }
         } catch (e: any) {

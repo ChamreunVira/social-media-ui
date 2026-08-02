@@ -12,7 +12,7 @@ import { AppContextProvider } from "../context/AppContext";
 import { Mosaic } from "react-loading-indicators";
 import PostModelPost from "../components/posts/PostModel.tsx";
 import Friends from "../components/Friends.tsx";
-import UserProfileModal from "../components/profile/UserProfileModal.tsx";
+import UserProfileModal from "../components/profile/ProfileModal.tsx";
 
 const Home = () => {
     const [posts, setPosts] = useState<PostResponse[]>([]);
@@ -92,14 +92,14 @@ const Home = () => {
                     </aside>
 
                     {/* Main Content Area */}
-                    <div className="flex-1 max-w-2xl w-full mx-auto flex flex-col gap-6">
+                    <div className="flex-1 max-w-4xl w-full mx-auto flex flex-col gap-6">
                         {/* Create Post Widget */}
-                        <div className="w-full bg-white rounded-2xl shadow-sm border border-zinc-100 p-4 space-y-3">
+                        <div className="w-full bg-white rounded-md border border-zinc-100 p-4 space-y-3">
                             <div className="flex items-center gap-3">
                                 <img
                                     src={`${import.meta.env.VITE_API_URL}/images/${userProfile?.profile}`}
                                     alt="Profile"
-                                    className="w-10 h-10 rounded-full object-cover border border-zinc-100 cursor-pointer hover:opacity-90"
+                                    className="w-10 h-10 rounded-full object-cover ring-1 ring-indigo-500 cursor-pointer hover:opacity-90"
                                     onClick={() => userProfile?.id && setSelectedUserId(userProfile.id)}
                                 />
                                 <div
@@ -148,7 +148,7 @@ const Home = () => {
                                 />
                             ))}
                             {filteredPosts.length === 0 && !loading && (
-                                <div className="text-center py-20 bg-white rounded-2xl border border-zinc-100 shadow-sm">
+                                <div className="text-center py-20 bg-white rounded-md border border-zinc-100">
                                     <p className="text-zinc-400 text-sm">
                                         {searchQuery ? `No posts matching "${searchQuery}"` : "No posts yet. Be the first to post!"}
                                     </p>
@@ -158,12 +158,12 @@ const Home = () => {
                     </div>
 
                     {/* Right Sidebar - Sponsored & Friends */}
-                    <aside className="hidden xl:flex w-80 flex-col gap-y-4 sticky top-24 h-fit shrink-0">
+                    <aside className="hidden xl:flex w-100 flex-col gap-y-4 sticky top-24 h-fit shrink-0">
                         {/* Friends Component (Suggestions, Requests, Friends list) */}
                         <Friends onSelectUser={(id) => setSelectedUserId(id)} />
 
                         {/* Sponsor/Extras */}
-                        <div className="bg-zinc-50 rounded-2xl p-5 border border-zinc-100 text-center">
+                        <div className="bg-zinc-50 rounded-md p-5 border border-zinc-100 text-center">
                             <p className="text-zinc-400 text-xs font-medium mb-2">Sponsored</p>
                             <div className="w-full aspect-video bg-zinc-200 rounded-lg mb-3 overflow-hidden">
                                 <img src="../../src/assets/img.png" alt="sponsored" className="w-full h-full object-cover" />

@@ -63,21 +63,18 @@ const Register: React.FC = () => {
     };
 
     return (
-        <section className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-4 relative overflow-hidden">
+        <section className="min-h-screen w-full flex items-center justify-center bg-white p-4 relative overflow-hidden">
             {/* Ambient Background Blur Elements */}
             <div className="absolute top-1/4 -left-20 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
             <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
-            <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl text-white relative z-10 animate-in fade-in duration-300">
+            <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg p-8 shadow-2xl text-white relative z-10 animate-in fade-in duration-300">
                 {/* Brand Header */}
                 <div className="text-center mb-6">
-                    <div className="w-12 h-12 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-2 shadow-lg shadow-indigo-500/30">
-                        <Sparkles className="w-6 h-6 text-white" />
-                    </div>
-                    <h1 className="text-2xl font-bold bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
-                        Create Account
-                    </h1>
-                    <p className="text-xs text-slate-400 mt-1">Join our social community today</p>
+                    <h1>KH <span className="text-indigo-500">SOCIAL</span></h1>
+                    <h2 className="text-2xl font-bold text-slate-600 mt-2">
+                        បង្កើតគណនីថ្មី
+                    </h2>
                 </div>
 
                 {/* Profile Image Selector */}
@@ -92,9 +89,9 @@ const Register: React.FC = () => {
                         <button
                             type="button"
                             onClick={handleRefToFileUpload}
-                            className="absolute bottom-0 right-0 p-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-lg border-2 border-slate-900 transition-colors"
+                            className="absolute bottom-0 right-0 p-2 bg-white hover:bg-white/90 text-white rounded-full border border-indigo-500 transition-colors"
                         >
-                            <Camera size={14} />
+                            <Camera size={14} className="text-indigo-500"/>
                         </button>
                     </div>
                 </div>
@@ -104,7 +101,7 @@ const Register: React.FC = () => {
 
                     {/* Username Field */}
                     <div>
-                        <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Username</label>
+                        <label className="block text-md font-semibold text-slate-600 tracking-wider mb-1.5">ឈ្មោះអ្នកប្រើ</label>
                         <div className="relative">
                             <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                             <input
@@ -114,14 +111,14 @@ const Register: React.FC = () => {
                                 name="username"
                                 value={data.username}
                                 required
-                                className="w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-slate-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20 transition-all text-sm"
+                                className="w-full pl-11 font-semibold pr-4 py-3 bg-white/5 border border-white/10 rounded-md text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20 transition-all text-sm"
                             />
                         </div>
                     </div>
 
                     {/* Email Field */}
                     <div>
-                        <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Email Address</label>
+                        <label className="block text-md font-semibold text-slate-600 tracking-wider mb-1.5">អ៊ីម៉ែល</label>
                         <div className="relative">
                             <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                             <input
@@ -131,14 +128,14 @@ const Register: React.FC = () => {
                                 name="email"
                                 value={data.email}
                                 required
-                                className="w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-slate-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20 transition-all text-sm"
+                                className="w-full pl-11 font-semibold pr-4 py-3 bg-white/5 border border-white/10 rounded-md text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20 transition-all text-sm"
                             />
                         </div>
                     </div>
 
                     {/* Password Field */}
                     <div>
-                        <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Password</label>
+                        <label className="block text-md font-semibold text-slate-600 tracking-wider mb-1.5">ពាក្យសម្ងាត់</label>
                         <div className="relative">
                             <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                             <input
@@ -148,7 +145,7 @@ const Register: React.FC = () => {
                                 name="password"
                                 value={data.password}
                                 required
-                                className="w-full pl-11 pr-11 py-3 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-slate-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20 transition-all text-sm"
+                                className="w-full pl-11 font-semibold pr-11 py-3 bg-white/5 border border-white/10 rounded-mdl text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20 transition-all text-sm"
                             />
                             <button
                                 type="button"
@@ -164,24 +161,24 @@ const Register: React.FC = () => {
                     <button
                         disabled={loading}
                         type="submit"
-                        className="w-full py-3.5 px-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold rounded-2xl shadow-lg shadow-indigo-500/25 transition-all flex items-center justify-center gap-2 active:scale-98 disabled:opacity-50 mt-6 text-sm"
+                        className="w-full py-3.5 px-4 bg-linear-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold rounded-md shadow-indigo-500/25 transition-all flex items-center justify-center gap-2 active:scale-98 disabled:opacity-50 mt-6 text-md tracking-wider"
                     >
                         {loading ? (
-                            <span>Creating Account...</span>
+                            <span>កំពុងបង្កើតគណនី...</span>
                         ) : (
                             <>
-                                <span>Sign Up</span>
-                                <UserPlus size={18} />
+                                <span>បង្កើតគណនីថ្មី</span>
+                                <UserPlus size={20} />
                             </>
                         )}
                     </button>
 
                     {/* Sign In Link */}
                     <div className="text-center pt-3 border-t border-white/10">
-                        <p className="text-xs text-slate-400">
-                            Already registered?{" "}
+                        <p className="text-md text-slate-400">
+                            មានគណនីហើយ?{" "}
                             <Link to="/login" className="text-indigo-400 hover:text-indigo-300 font-semibold transition-colors">
-                                Sign In
+                                ចូលគណនី
                             </Link>
                         </p>
                     </div>

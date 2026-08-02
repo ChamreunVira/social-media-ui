@@ -72,11 +72,11 @@ const PostModelPost: React.FC<PostModelProps> = ({ onPostCreated }) => {
     <section className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
       <div
         ref={modelRef}
-        className="w-full max-w-xl p-6 bg-white rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
+        className="w-full max-w-xl p-6 bg-white rounded-lg shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
       >
         {/* Header */}
         <div className="px-6 py-4 flex justify-between items-center border-b border-zinc-100 bg-zinc-50/50">
-          <h1 className="text-xl font-bold text-zinc-800">Create Post</h1>
+          <h1 className="text-xl font-bold text-indigo-500">Create Post</h1>
           <button
             onClick={() => setIsPostModelOpen(false)}
             className="p-2 rounded-full hover:bg-zinc-200 text-zinc-500 transition-colors"
@@ -102,19 +102,19 @@ const PostModelPost: React.FC<PostModelProps> = ({ onPostCreated }) => {
             </div>
 
             {/* Content Textarea */}
-            <div className="min-h-30">
+            <div className="min-h-50">
               <textarea
                 name="content"
                 value={data.content}
                 onChange={handleChange}
                 placeholder="What's is on your mind?"
-                className="w-full h-full min-h-35 p-3 resize-none text-base text-zinc-600 placeholder:text-zinc-400 border-none focus:ring-0 p-0 bg-transparent"
+                className="w-full h-full min-h-50 p-3 resize-none text-base text-zinc-600 placeholder:text-zinc-400 border-none focus:ring-0 p-0 bg-transparent"
               ></textarea>
             </div>
 
             {/* Image Preview */}
             {image && (
-              <div className="relative rounded-xl overflow-hidden border border-zinc-100 bg-zinc-50 group">
+              <div className="relative rounded-md overflow-hidden border border-zinc-100 bg-zinc-50 group">
                 <button
                   type="button"
                   onClick={removeImage}
@@ -142,7 +142,7 @@ const PostModelPost: React.FC<PostModelProps> = ({ onPostCreated }) => {
             )}
 
             {!image && (
-              <div className="border-2 border-dashed border-zinc-200 rounded-xl hover:border-indigo-400/50 hover:bg-indigo-50/30 transition-colors">
+              <div className="border-2 border-dashed border-zinc-200 rounded-md hover:border-indigo-400/50 hover:bg-indigo-50/30 transition-colors">
                 <FileDropzone sendImage={handleImageUplaod} isMinimal={true} />
               </div>
             )}
@@ -160,7 +160,7 @@ const PostModelPost: React.FC<PostModelProps> = ({ onPostCreated }) => {
               type="submit"
               disabled={(!data.title && !data.content && !image) || isLoading}
               className={`
-                    flex items-center space-x-2 px-6 py-2.5 rounded-xl font-medium text-sm transition-all
+                    flex items-center space-x-2 px-6 py-2.5 rounded-md font-medium text-sm transition-all
                     ${(!data.title && !data.content && !image) || isLoading
                   ? 'bg-zinc-200 text-zinc-400 cursor-not-allowed'
                   : 'bg-zinc-900 text-white hover:bg-zinc-800 shadow-lg shadow-zinc-200 hover:shadow-xl'}

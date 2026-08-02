@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { X, Mail, FileText, UserPlus, UserCheck, MessageSquare, Heart } from "lucide-react";
+import { X, Mail, FileText, UserPlus, UserCheck, MessageSquare, Heart, Phone, Calendar, User, MapPin } from "lucide-react";
 import type { UserResponse } from "../../types/auth";
 import type { PostResponse } from "../../types/post";
 import { atuhService } from "../../service/authService";
@@ -65,7 +65,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, onClose, on
             await friendService.sendRequest(userId);
             toast.success("Friend request sent!");
         } catch (e: any) {
-            toast.error(e.message || "Failed to send request");
+            toast.error(e.message || "Failed to sen d request");
         } finally {
             setActionLoading(false);
         }
@@ -100,7 +100,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, onClose, on
 
                 <div className="overflow-y-auto flex-1 custom-scrollbar">
                     {/* Cover Banner */}
-                    <div className="h-36 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 relative"></div>
+                    <div className="h-36 bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 relative"></div>
 
                     {/* Profile Header Info */}
                     <div className="px-6 pb-6 pt-0 relative">
@@ -149,8 +149,30 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, onClose, on
                             <h2 className="text-2xl font-bold text-zinc-900 flex items-center gap-2">
                                 {user?.username || "Loading..."}
                             </h2>
+                            <button className="px-2 py-0.5 bg-emerald-100 rounded-sm text-emerald-600">{user?.roles || "User"}</button>
+                            <p className="text-sm text-slate-500 flex items-center gap-1.5 mt-1">
+                                {user?.nickname || "No nickname"}
+                            </p>
+                            <p className="text-sm text-slate-500 flex items-center gap-1.5 mt-1">
+                                {user?.bio}
+                            </p>
                             <p className="text-sm text-zinc-500 flex items-center gap-1.5 mt-1">
                                 <Mail className="w-4 h-4 text-zinc-400" /> {user?.email}
+                            </p>
+                            <p className="text-sm text-zinc-500 flex items-center gap-1.5 mt-1">
+                                <Phone className="w-4 h-4 text-zinc-400" /> {user?.phone || "N/A"}
+                            </p>
+                            <p className="text-sm text-zinc-500 flex items-center gap-1.5 mt-1">
+                                <Calendar className="w-4 h-4 text-zinc-400" /> {user?.dob || "N/A"}
+                            </p>
+                            <p className="text-sm text-zinc-500 flex items-center gap-1.5 mt-1">
+                                <User className="w-4 h-4 text-zinc-400" /> {user?.gender || "N/A"}
+                            </p>
+                            <p className="text-sm text-zinc-500 flex items-center gap-1.5 mt-1">
+                                <MapPin className="w-4 h-4 text-zinc-400" /> {user?.address || "N/A"}
+                            </p>
+                            <p className="text-sm text-zinc-500 flex items-center gap-1.5 mt-1">
+                                <Calendar className="w-4 h-4 text-zinc-400" /> {user?.updatedAt}
                             </p>
                         </div>
 
