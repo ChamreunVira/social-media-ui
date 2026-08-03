@@ -1,4 +1,4 @@
-import { AlertTriangle, Heart, MessageCircleMore, MoreVertical, UserPlus2, UserCheck, Clock } from "lucide-react"
+import { AlertTriangle, Heart, MessageCircleMore, MoreVertical, UserPlus2, UserCheck, Clock, Trash } from "lucide-react"
 import type React from "react"
 import type { PostResponse } from "../types/post";
 import { useState } from "react";
@@ -71,7 +71,7 @@ const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image,
                         <div className="w-10 h-10 rounded-full overflow-hidden bg-zinc-200 shrink-0 border border-zinc-100 flex items-center justify-center font-bold text-zinc-600">
                             {author?.profile ? (
                                 <img
-                                    src={`${import.meta.env.VITE_API_URL}/images/${author.profile}`}
+                                    src={author.profile}
                                     alt={author.username}
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                                 />
@@ -91,7 +91,7 @@ const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image,
                             className="rounded-full text-zinc-500 p-1.5 hover:bg-zinc-100 transition-colors"
                             title="Delete Post"
                         >
-                            <MoreVertical size={18} />
+                            <Trash className="text-rose-500" size={18} />
                         </button>
                     ) : isFriend ? (
                         <span className="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600 rounded-full flex items-center gap-1 border border-emerald-100">

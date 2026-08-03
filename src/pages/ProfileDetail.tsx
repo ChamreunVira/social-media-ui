@@ -158,7 +158,7 @@ const ProfileDetail = () => {
                 <div className="flex px-12 flex-col sm:flex-row sm:items-end justify-between -mt-16 mb-4 gap-4">
                     {/* Avatar */}
                     <div className="w-30 h-30 z-1 rounded-full overflow-hidden bg-white shadow-xl border-4 border-white shrink-0">
-                        <div className="w-full h-full rounded-full bg-zinc-200 flex items-center justify-center text-zinc-600 text-3xl font-bold overflow-hidden">
+                        <div className="w-full h-full rounded-full bg-zinc-200 flex items-center justify-center text-zinc-600 text-xl md:text-3xl font-bold overflow-hidden">
                             {user?.profile ? (
                                 <img
                                     src={user.profile}
