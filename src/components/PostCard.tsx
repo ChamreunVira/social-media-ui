@@ -1,4 +1,4 @@
-import { AlertTriangle, Heart, MessageCircleMore, MoreVertical, UserPlus2, UserCheck, Clock, Trash } from "lucide-react"
+import { AlertTriangle, Heart, MessageCircleMore, UserPlus2, UserCheck, Clock, Trash } from "lucide-react"
 import type React from "react"
 import type { PostResponse } from "../types/post";
 import { useState } from "react";
