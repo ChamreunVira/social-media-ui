@@ -8,9 +8,10 @@ import { commentService } from "../service/commentService";
 interface PopupPostProps {
     post: PostResponse;
     onClose: () => void;
+    onCommentAdded?: () => void;
 }
 
-const PopupPostComment: React.FC<PopupPostProps> = ({ post, onClose }) => {
+const PopupPostComment: React.FC<PopupPostProps> = ({ post, onClose, onCommentAdded }) => {
     const { id, title, content, image, author, createdAt, updatedAt } = post;
     const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -29,6 +30,7 @@ const PopupPostComment: React.FC<PopupPostProps> = ({ post, onClose }) => {
             if (response.success) {
                 setData({ content: "" });
                 await handleFetchComment(id);
+                onCommentAdded?.();
             }
         } catch (e: any) {
             console.log("error posting comment", e);

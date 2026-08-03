@@ -5,7 +5,7 @@ import { atuhService } from "../../service/authService";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import defaultProfile from "../../../src/assets/default-profile.jpg";
-import { User, Mail, Lock, Eye, EyeOff, Camera, UserPlus, Sparkles } from "lucide-react";
+import { User, Mail, Lock, Eye, EyeOff, Camera, UserPlus } from "lucide-react";
 
 const Register: React.FC = () => {
     const [data, setData] = useState<UserRequest>({

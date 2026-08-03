@@ -9,13 +9,12 @@ import { friendService } from "../service/friendService";
 import { useNavigate } from "react-router-dom";
 
 interface PostCardProps extends PostResponse {
-    onSelectAuthor?: (authorId: number) => void;
     isFriend?: boolean;
     isPending?: boolean;
     currentUserId?: number;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image, author, comments, like, likeByMe, createdAt, updatedAt, onSelectAuthor, isFriend, isPending, currentUserId }) => {
+const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image, author, comments, like, likeByMe, createdAt, updatedAt, isFriend, isPending, currentUserId }) => {
 
     const [isLike, setIsLike] = useState<boolean | undefined>(likeByMe);
     const [likeCount, setLikeCount] = useState<number>(like);
@@ -127,11 +126,11 @@ const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image,
                                 className="w-full max-h-96 object-contain"
                                 preload="metadata"
                             >
-                                <source src={`${import.meta.env.VITE_API_URL}/images/${image}`} type="video/mp4" />
+                                <source src={image} type="video/mp4,video/webm" />
                             </video>
                         ) : (
                             <img
-                                src={`${import.meta.env.VITE_API_URL}/images/${image}`}
+                                src={image}
                                 alt={title}
                                 className="w-full max-h-96 object-contain hover:scale-102 transition-transform duration-200 cursor-pointer"
                             />
@@ -160,9 +159,8 @@ const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image,
             {comment && (
                 <PopupPostComment
                     post={{ id, profile, title, content, image, author, like: likeCount, likeByMe: !!isLike, createdAt, updatedAt }}
-                    onClose={() => {
-                        setComment(false);
-                    }}
+                    onClose={() => setComment(false)}
+                    onCommentAdded={() => setCommentCount(prev => prev + 1)}
                 />
             )}
         </>

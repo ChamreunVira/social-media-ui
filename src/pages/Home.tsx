@@ -143,7 +143,6 @@ const Home = () => {
                                     likeByMe={post.likeByMe}
                                     createdAt={post.updatedAt}
                                     updatedAt={post.updatedAt}
-                                    onSelectAuthor={(authorId) => setSelectedUserId(authorId)}
                                     currentUserId={userProfile?.id}
                                     isFriend={friendUserIds.includes(post.author.userId)}
                                     isPending={pendingSenderIds.includes(post.author.userId)}

@@ -5,7 +5,7 @@ import { atuhService } from "../../service/authService";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { AppContextProvider } from "../../context/AppContext";
-import { Mail, Lock, Eye, EyeOff, LogIn, Sparkles } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, LogIn } from "lucide-react";
 
 const Login: React.FC = () => {
     const [data, setData] = useState<AuthRequest>({

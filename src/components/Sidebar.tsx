@@ -1,7 +1,6 @@
 import { Bell, Home, MessageCircleMore, Settings } from "lucide-react"
-import { useContext, type ReactElement } from "react"
+import { type ReactElement } from "react"
 import type React from "react"
-import { AppContextProvider } from "../context/AppContext"
 import { Link } from "react-router-dom"
 
 type Items = {
