@@ -281,11 +281,11 @@ const ProfileDetail = () => {
                                         <div className="w-full h-44 rounded-xl overflow-hidden bg-zinc-100 mb-3">
                                             {post.image.endsWith('.mp4') ? (
                                                 <video className="w-full h-full object-cover" controls>
-                                                    <source src={`${apiUrl}/images/${post.image}`} type="video/mp4" />
+                                                    <source src={post.image} type="video/mp4" />
                                                 </video>
                                             ) : (
                                                 <img
-                                                    src={`${apiUrl}/images/${post.image}`}
+                                                    src={post.image}
                                                     alt={post.title}
                                                     className="w-full h-full object-cover"
                                                 />
