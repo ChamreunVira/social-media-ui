@@ -9,7 +9,7 @@ export interface FriendResponse {
 }
 
 export interface FriendSenderResponse {
-    id: number; // this is the friend REQUEST id — use this for accept/reject
+    id: number;
     sender: FriendResponse;
     status: FriendRequestStatus;
 }

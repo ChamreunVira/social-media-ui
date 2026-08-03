@@ -54,7 +54,7 @@ const Navbar: React.FC = () => {
                         <div className="relative" ref={dropDownRef}>
                             <img
                                 onClick={() => setIsDropDownOpen(!isDropDownOpen)}
-                                src={`${import.meta.env.VITE_API_URL}/images/${userProfile?.profile}`} 
+                                src={userProfile.profile}
                                 alt="Avatar" 
                                 className="w-9 h-9 rounded-full ring-1 ring-indigo-500 object-cover cursor-pointer border border-zinc-200 hover:ring-2 hover:ring-indigo-500/20 transition-all" 
                             />

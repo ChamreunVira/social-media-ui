@@ -65,8 +65,8 @@ const Register: React.FC = () => {
     return (
         <section className="min-h-screen w-full flex items-center justify-center bg-white p-4 relative overflow-hidden">
             {/* Ambient Background Blur Elements */}
-            <div className="absolute top-1/4 -left-20 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
-            <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="absolute top-1/4 -left-20 w-96 h-96 bg-transparent md:bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-transparent md:bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
             <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg p-8 shadow-2xl text-white relative z-10 animate-in fade-in duration-300">
                 {/* Brand Header */}
