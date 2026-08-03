@@ -1,11 +1,11 @@
 import { AlertTriangle, Heart, MessageCircleMore, MoreVertical, UserPlus2, UserCheck, Clock } from "lucide-react"
 import type React from "react"
-import type { PostResponse } from "../../types/post";
+import type { PostResponse } from "../types/post";
 import { useState } from "react";
-import { postService } from "../../service/PostService";
+import { postService } from "../service/PostService";
 import { toast } from "react-toastify";
 import PopupPostComment from "./CommentModal.";
-import { friendService } from "../../service/friendService";
+import { friendService } from "../service/friendService";
 import { useNavigate } from "react-router-dom";
 
 interface PostCardProps extends PostResponse {

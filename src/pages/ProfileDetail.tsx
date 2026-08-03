@@ -161,7 +161,7 @@ const ProfileDetail = () => {
                         <div className="w-full h-full rounded-full bg-zinc-200 flex items-center justify-center text-zinc-600 text-3xl font-bold overflow-hidden">
                             {user?.profile ? (
                                 <img
-                                    src={`${apiUrl}/images/${user.profile}`}
+                                    src={user.profile}
                                     alt={user.username}
                                     className="w-full h-full object-cover"
                                 />

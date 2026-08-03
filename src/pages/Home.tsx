@@ -6,13 +6,13 @@ import type { PostResponse } from "../types/post";
 import type { FriendResponse, FriendSenderResponse } from "../types/friend";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import PostCard from "../components/posts/PostCard";
+import PostCard from "../components/PostCard.tsx";
 import Profile from "../components/Profile";
 import { AppContextProvider } from "../context/AppContext";
 import { Mosaic } from "react-loading-indicators";
-import PostModelPost from "../components/posts/PostModel.tsx";
+import PostModelPost from "../components/PostModel.tsx";
 import Friends from "../components/Friends.tsx";
-import UserProfileModal from "../components/profile/ProfileModal.tsx";
+import UserProfileModal from "../components/ProfileModal.tsx";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
@@ -99,7 +99,7 @@ const Home = () => {
                         <div className="w-full bg-white rounded-md border border-zinc-100 p-4 space-y-3">
                             <div className="flex items-center gap-3">
                                 <img
-                                    src={`${import.meta.env.VITE_API_URL}/images/${userProfile?.profile}`}
+                                    src={userProfile?.profile}
                                     alt="Profile"
                                     className="w-10 h-10 rounded-full object-cover ring-1 ring-indigo-500 cursor-pointer hover:opacity-90"
                                     onClick={() => navigate(`/${userProfile?.nickname}`)}

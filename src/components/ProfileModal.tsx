@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import { X, Mail, FileText, UserPlus, UserCheck, MessageSquare, Heart, Phone, Calendar, User, MapPin } from "lucide-react";
-import type { UserResponse } from "../../types/auth";
-import type { PostResponse } from "../../types/post";
-import { atuhService } from "../../service/authService";
-import { postService } from "../../service/PostService";
-import { AppContextProvider } from "../../context/AppContext";
-import { friendService } from "../../service/friendService";
+import type { UserResponse } from "../types/auth";
+import type { PostResponse } from "../types/post";
+import { atuhService } from "../service/authService";
+import { postService } from "../service/PostService";
+import { AppContextProvider } from "../context/AppContext";
+import { friendService } from "../service/friendService";
 import { toast } from "react-toastify";
 
 interface UserProfileModalProps {

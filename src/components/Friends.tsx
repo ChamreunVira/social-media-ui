@@ -237,7 +237,7 @@ const Friends: React.FC<FriendsProps> = ({ onSelectUser }) => {
                                     >
                                         <div className="w-9 h-9 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs font-semibold shrink-0 overflow-hidden border border-zinc-100">
                                             {user.profile ? (
-                                                <img src={`${apiUrl}/images/${user.profile}`} alt={user.username} className="w-full h-full object-cover" />
+                                                <img src={user.profile} alt={user.username} className="w-full h-full object-cover" />
                                             ) : (
                                                 user.username?.[0]?.toUpperCase()
                                             )}
@@ -298,7 +298,7 @@ const Friends: React.FC<FriendsProps> = ({ onSelectUser }) => {
                                 >
                                     <div className="w-9 h-9 rounded-full bg-zinc-100 text-zinc-600 flex items-center justify-center text-xs font-semibold shrink-0 overflow-hidden border border-zinc-100">
                                         {friend.profile ? (
-                                            <img src={`${apiUrl}/images/${friend.profile}`} alt={friend.username} className="w-full h-full object-cover" />
+                                            <img src={friend.profile} alt={friend.username} className="w-full h-full object-cover" />
                                         ) : (
                                             friend.username?.[0]?.toUpperCase()
                                         )}

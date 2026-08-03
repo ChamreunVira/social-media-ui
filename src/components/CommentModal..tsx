@@ -1,9 +1,9 @@
 import type React from "react"
 import { X, Send } from "lucide-react"
-import type { PostResponse } from "../../types/post";
+import type { PostResponse } from "../types/post";
 import { useEffect, useState } from "react";
-import type { ComemntRequest, CommentResponse } from "../../types/comment";
-import { commentService } from "../../service/commentService";
+import type { ComemntRequest, CommentResponse } from "../types/comment";
+import { commentService } from "../service/commentService";
 
 interface PopupPostProps {
     post: PostResponse;

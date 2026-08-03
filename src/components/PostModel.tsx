@@ -1,11 +1,11 @@
 import React, { useContext, useRef, useState } from "react"
-import type { PostRequest } from "../../types/post"
+import type { PostRequest } from "../types/post"
 import { X, Loader2, Send } from "lucide-react"
-import { AppContextProvider } from "../../context/AppContext"
-import FileDropzone from "../FileDropzone"
-import { useClickOutside } from "../../hooks/useClickOutside"
+import { AppContextProvider } from "../context/AppContext"
+import FileDropzone from "./FileDropzone"
+import { useClickOutside } from "../hooks/useClickOutside"
 import { toast } from "react-toastify"
-import { postService } from "../../service/PostService"
+import { postService } from "../service/PostService"
 
 interface PostModelProps {
   onPostCreated?: () => void;
@@ -108,7 +108,7 @@ const PostModelPost: React.FC<PostModelProps> = ({ onPostCreated }) => {
                 value={data.content}
                 onChange={handleChange}
                 placeholder="អត្ថបទអំពីអ្វីដែលអ្នកចង់ចែករំលែក..."
-                className="w-full h-full min-h-50 p-3 resize-none text-base text-zinc-600 placeholder:text-zinc-400 border-none focus:ring-0 p-0 bg-transparent"
+                className="w-full h-full min-h-50 p-3 resize-none text-base text-zinc-600 placeholder:text-zinc-400 border-none focus:ring-0 bg-transparent"
               ></textarea>
             </div>
 
