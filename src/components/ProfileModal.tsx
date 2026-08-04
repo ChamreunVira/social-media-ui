@@ -110,7 +110,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, onClose, on
                                 <div className="w-full h-full rounded-full bg-zinc-200 flex items-center justify-center text-zinc-600 text-3xl font-bold overflow-hidden">
                                     {user?.profile ? (
                                         <img
-                                            src={`${apiUrl}/images/${user.profile}`}
+                                            src={user.profile}
                                             alt={user.username}
                                             className="w-full h-full object-cover"
                                         />
@@ -219,11 +219,11 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, onClose, on
                                                 <div className="w-full h-44 rounded-md overflow-hidden bg-zinc-100 mb-3">
                                                     {post.image.endsWith('.mp4') ? (
                                                         <video className="w-full h-full object-cover">
-                                                            <source src={`${apiUrl}/images/${post.image}`} type="video/mp4" />
+                                                            <source src={post.image} type="video/mp4" />
                                                         </video>
                                                     ) : (
                                                         <img
-                                                            src={`${apiUrl}/images/${post.image}`}
+                                                            src={post.image}
                                                             alt={post.title}
                                                             className="w-full h-full object-cover"
                                                         />
