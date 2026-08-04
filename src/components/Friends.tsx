@@ -169,7 +169,7 @@ const Friends: React.FC<FriendsProps> = ({ onSelectUser }) => {
                                     className="w-10 h-10 rounded-full bg-zinc-200 flex items-center justify-center text-zinc-600 text-sm font-semibold shrink-0 cursor-pointer overflow-hidden border border-zinc-100"
                                 >
                                     {req.sender.profile ? (
-                                        <img src={`${apiUrl}/images/${req.sender.profile}`} alt={req.sender.username} className="w-full h-full object-cover" />
+                                        <img src={req.sender.profile} alt={req.sender.username} className="w-full h-full object-cover" />
                                     ) : (
                                         req.sender.username?.[0]?.toUpperCase()
                                     )}
