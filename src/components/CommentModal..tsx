@@ -13,7 +13,6 @@ interface PopupPostProps {
 
 const PopupPostComment: React.FC<PopupPostProps> = ({ post, onClose, onCommentAdded }) => {
     const { id, title, content, image, author, createdAt, updatedAt } = post;
-    const apiUrl = import.meta.env.VITE_API_URL;
 
     const [data, setData] = useState<ComemntRequest>({
         content: "",

@@ -18,8 +18,6 @@ const Friends: React.FC<FriendsProps> = ({ onSelectUser }) => {
     const [loading, setLoading] = useState(false);
     const [showAllSuggestions, setShowAllSuggestions] = useState(false);
 
-    const apiUrl = import.meta.env.VITE_API_URL;
-
     const fetchFriendsData = async () => {
         if (!userProfile?.id) return;
         try {

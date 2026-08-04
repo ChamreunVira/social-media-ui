@@ -22,7 +22,6 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ userId, onClose, on
     const [isFriend, setIsFriend] = useState<boolean>(false);
     const [actionLoading, setActionLoading] = useState<boolean>(false);
 
-    const apiUrl = import.meta.env.VITE_API_URL;
     const isSelf = currentUser?.id === userId;
 
     useEffect(() => {
