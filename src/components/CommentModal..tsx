@@ -80,11 +80,11 @@ const PopupPostComment: React.FC<PopupPostProps> = ({ post, onClose, onCommentAd
                         <div className="w-full bg-zinc-50 border-b border-zinc-100">
                             {image.endsWith('.mp4') ? (
                                 <video controls autoPlay className="w-full max-h-[50vh] object-contain mx-auto">
-                                    <source src={`${apiUrl}/images/${image}`} type="video/mp4" />
+                                    <source src={image} type="video/mp4" />
                                 </video>
                             ) : (
                                 <img
-                                    src={`${apiUrl}/images/${image}`}
+                                    src={image}
                                     alt={title}
                                     className="w-full max-h-[50vh] object-contain mx-auto"
                                 />
@@ -98,7 +98,7 @@ const PopupPostComment: React.FC<PopupPostProps> = ({ post, onClose, onCommentAd
                             <div className="w-12 h-12 rounded-full overflow-hidden bg-zinc-200 shrink-0 border border-zinc-100 flex items-center justify-center font-bold text-zinc-600">
                                 {author.profile ? (
                                     <img
-                                        src={`${apiUrl}/images/${author.profile}`}
+                                        src={author.profile}
                                         alt={author.username}
                                         className="w-full h-full object-cover"
                                     />
@@ -136,7 +136,7 @@ const PopupPostComment: React.FC<PopupPostProps> = ({ post, onClose, onCommentAd
                                             {/* Avatar for commenter */}
                                             <div className="w-8 h-8 ring-1 ring-indigo-500 shrink-0 rounded-full overflow-hidden bg-indigo-100 flex items-center justify-center text-xs font-bold text-indigo-600">
                                                 {comment.profile || comment.image ? (
-                                                    <img src={`${apiUrl}/images/${comment.profile || comment.image}`} className="w-full h-full object-cover" />
+                                                    <img src={comment.profile || comment.image} className="w-full h-full object-cover" />
                                                 ) : (
                                                     comment.username?.[0]?.toUpperCase() || 'U'
                                                 )}

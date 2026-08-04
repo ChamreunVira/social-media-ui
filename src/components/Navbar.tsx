@@ -46,7 +46,7 @@ const Navbar: React.FC = () => {
                         type="text" 
                         value={searchQuery || ""}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full h-9 pl-9 pr-4 bg-zinc-100/80 border border-transparent rounded-full text-xs font-medium focus:bg-white focus:border-indigo-200 focus:ring-2 focus:ring-indigo-500/10 transition-all outline-none" 
+                        className="w-full h-9 pl-9 pr-4 bg-zinc-100 /80 border border-transparent rounded-full text-xs font-medium focus:bg-white focus:border-indigo-200 focus:ring-2 focus:ring-indigo-500/10 transition-all outline-none" 
                         placeholder="Search posts or creators..." 
                     />
                 </div>
