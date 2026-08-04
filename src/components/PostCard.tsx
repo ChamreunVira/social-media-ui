@@ -27,10 +27,9 @@ const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image,
             const response = await postService.delete(id);
             if (response.success) {
                 toast.success("Post deleted successfully.");
-            } else {
-                toast.error("You don't have permission to delete this post.");
             }
         } catch (e) {
+            toast.error("You don't have permission to delete this post.");
             console.log(e);
         }
     }
