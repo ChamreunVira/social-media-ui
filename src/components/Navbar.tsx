@@ -3,11 +3,11 @@ import type React from "react"
 import { useContext, useRef, useState } from "react"
 import { AppContextProvider } from "../context/AppContext"
 import { Link, useNavigate } from "react-router-dom"
-import { atuhService } from "../service/authService"
 import { useClickOutside } from "../hooks/useClickOutside"
+import { removeToken } from "../utils/tokenManager"
 
 const Navbar: React.FC = () => {
-    const { userProfile, isLoggedIn, setIsLoggedIn, setUserProfile, searchQuery, setSearchQuery } = useContext<any>(AppContextProvider);
+    const { userProfile, isLoggedIn, searchQuery, setSearchQuery } = useContext<any>(AppContextProvider);
     const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
     const dropDownRef = useRef<any>(null);
     const navigate = useNavigate();
@@ -15,17 +15,19 @@ const Navbar: React.FC = () => {
     useClickOutside(dropDownRef, () => setIsDropDownOpen(false));
 
     const handleLogout = async () => {
-        try {
-            await atuhService.logout();
-        } catch (e: any) {
-            console.error("Logout request error:", e);
-        } finally {
-            localStorage.removeItem("token");
-            setIsLoggedIn(false);
-            setUserProfile(null);
-            setIsDropDownOpen(false);
-            navigate("/login");
-        }
+        removeToken();
+        navigate("/login");
+        // try {
+        //     await atuhService.logout();
+        // } catch (e: any) {
+        //     console.error("Logout request error:", e);
+        // } finally {
+        //     localStorage.removeItem("token");
+        //     setIsLoggedIn(false);
+        //     setUserProfile(null);
+        //     setIsDropDownOpen(false);
+        //     navigate("/login");
+        // }
     }
 
 

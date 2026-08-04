@@ -1,6 +1,6 @@
 import { api } from "../lib/axios";
 import type { ApiResponse } from "../types/api";
-import type { AuthRequest, UserRequest, UserResponse } from "../types/auth";
+import type { AuthRequest, UserResponse } from "../types/auth";
 
 class AuthService {
     private endpoint: string;
@@ -11,7 +11,7 @@ class AuthService {
         return api.post(`${this.endpoint}/register` , data);
     }
 
-    public login(data: AuthRequest): Promise<ApiResponse<UserRequest>> {
+    public login(data: AuthRequest): Promise<ApiResponse<UserResponse>> {
         return api.post(`${this.endpoint}/login` , data);
     }
 

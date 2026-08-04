@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { AppContextProvider } from "../../context/AppContext";
 import { Mail, Lock, Eye, EyeOff, LogIn } from "lucide-react";
+import { removeToken, setToken } from "../../utils/tokenManager";
 
 const Login: React.FC = () => {
     const [data, setData] = useState<AuthRequest>({
@@ -29,6 +30,8 @@ const Login: React.FC = () => {
         try {
             const response = await atuhService.login(data);
             if (response.success) {
+                const token = response.data?.token;
+                setToken(token);
                 setIsLoggedIn(true);
                 setUserProfile(response.data);
                 toast.success("Welcome back!");
@@ -36,6 +39,7 @@ const Login: React.FC = () => {
             }
         } catch (e: any) {
             toast.error("Invalid email or password.");
+            removeToken();
         } finally {
             setLoading(false);
         }

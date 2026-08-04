@@ -3,6 +3,7 @@ import axios, {
   type AxiosInstance,
   type AxiosResponse,
 } from "axios";
+import { getToken } from "../utils/tokenManager";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -17,10 +18,10 @@ export const api: AxiosInstance = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    //     const token = localStorage.getItem("token");
-    //     if(token) {
-    //         config.headers.Authorization = `Bearer ${token}`;
-    //     }
+    const token = getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => Promise.reject(error),

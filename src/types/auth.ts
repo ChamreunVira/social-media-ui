@@ -8,7 +8,7 @@ export type AuthRequest = Omit<UserRequest , "username" | "profile">;
 
 export interface UserResponse extends Omit<UserRequest , "password"> {
     id: number;
-    token?: string;
+    token: string;
     profile?: string;
     nickname?: string;
     bio?: string;

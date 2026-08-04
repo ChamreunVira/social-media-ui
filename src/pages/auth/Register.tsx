@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import defaultProfile from "../../../src/assets/default-profile.jpg";
 import { User, Mail, Lock, Eye, EyeOff, Camera, UserPlus } from "lucide-react";
+import { removeToken, setToken } from "../../utils/tokenManager";
 
 const Register: React.FC = () => {
     const [data, setData] = useState<UserRequest>({
@@ -52,10 +53,13 @@ const Register: React.FC = () => {
         try {
             const response = await atuhService.register(form);
             if (response.success) {
+                const token = response.data?.token;
+                setToken(token);
                 toast.success("Account created! Please sign in.");
                 navigate("/login");
             }
         } catch (e: any) {
+            removeToken();
             toast.error("Registration failed. Please check your information.");
         } finally {
             setLoading(false);
