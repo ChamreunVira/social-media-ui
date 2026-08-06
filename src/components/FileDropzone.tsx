@@ -2,25 +2,22 @@ import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 
 interface FileDropzoneProps {
-    sendImage: (file: any) => void;
+    sendFiles: (files: File[]) => void;
     isMinimal?: boolean;
 }
 
-const FileDropzone: React.FC<FileDropzoneProps> = ({ sendImage, isMinimal = false }) => {
-    const onDrop = useCallback((acceptedFiles: any) => {
-        handleImageUplaod(acceptedFiles);
-    }, []);
-
-    const handleImageUplaod = (acceptedFiles: any) => {
-        const file = acceptedFiles[0];
-        if (file) {
-            sendImage(file);
-        }
-    }
+const FileDropzone: React.FC<FileDropzoneProps> = ({ sendFiles, isMinimal = false }) => {
+    const onDrop = useCallback((acceptedFiles: File[]) => {
+        if (acceptedFiles.length) sendFiles(acceptedFiles);
+    }, [sendFiles]);
 
     const { getInputProps, getRootProps, isDragActive } = useDropzone({
         onDrop,
-        multiple: false
+        multiple: true,
+        accept: {
+            "image/*": [],
+            "video/*": [],
+        },
     });
 
     return (
@@ -46,9 +43,9 @@ const FileDropzone: React.FC<FileDropzoneProps> = ({ sendImage, isMinimal = fals
                             </div>
                         )}
                         <p className={`${isMinimal ? 'text-zinc-400 text-sm' : 'text-zinc-600 font-medium'}`}>
-                            {isMinimal ? "Click to add image/video" : "Drag 'n' drop media here, or click to select"}
+                            {isMinimal ? "Click to add photos or videos" : "Drag 'n' drop media here, or click to select"}
                         </p>
-                        {!isMinimal && <p className="text-xs text-zinc-400">Supports JPG, PNG, MP4</p>}
+                        {!isMinimal && <p className="text-xs text-zinc-400">Select one or more images or videos</p>}
                     </div>
                 )}
             </div>

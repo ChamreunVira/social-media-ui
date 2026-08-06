@@ -6,7 +6,8 @@ export interface PostResponse {
     title: string,
     profile: UserResponse,
     content: string,
-    image: string,
+    image?: string,
+    images?: string[],
     author: {
         userId: number,
         username: string,

@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify"
 import Register from "../pages/auth/Register"
 import ProfileDetail from "../pages/ProfileDetail"
 import ProfileForm from "../pages/ProfileForm"
+import PostDetail from "../pages/PostDetail"
 
 const AppRoute = () => {
   return (
@@ -12,6 +13,7 @@ const AppRoute = () => {
       <Routes>
         <Route index element={<Home />} />
         <Route path="/:nickname" element={<ProfileDetail/>}/>
+        <Route path="/posts/:id" element={<PostDetail/>}/>
         <Route path="/profile/edit" element={<ProfileForm/>}/>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register/>}/>

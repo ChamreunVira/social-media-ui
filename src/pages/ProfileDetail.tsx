@@ -342,11 +342,11 @@ const ProfileDetail = () => {
                             <div className="w-full rounded-xl overflow-hidden bg-zinc-100 mb-4">
                                 {activePost.image.endsWith('.mp4') ? (
                                     <video className="w-full max-h-96 object-contain" controls autoPlay>
-                                        <source src={`${apiUrl}/images/${activePost.image}`} type="video/mp4" />
+                                        <source src={activePost.image} type="video/mp4" />
                                     </video>
                                 ) : (
                                     <img
-                                        src={`${apiUrl}/images/${activePost.image}`}
+                                        src={activePost.image}
                                         alt={activePost.title}
                                         className="w-full max-h-96 object-contain"
                                     />

@@ -4,15 +4,17 @@ import type { PostResponse } from "../types/post";
 import { useEffect, useState } from "react";
 import type { ComemntRequest, CommentResponse } from "../types/comment";
 import { commentService } from "../service/commentService";
+import { getCachedComments, invalidateComments } from "../lib/postCache";
+import PostMediaGallery from "./PostMediaGallery";
 
 interface PopupPostProps {
     post: PostResponse;
     onClose: () => void;
-    onCommentAdded?: () => void;
+    onCommentsChanged?: (comments: CommentResponse[]) => void;
 }
 
-const PopupPostComment: React.FC<PopupPostProps> = ({ post, onClose, onCommentAdded }) => {
-    const { id, title, content, image, author, createdAt, updatedAt } = post;
+const PopupPostComment: React.FC<PopupPostProps> = ({ post, onClose, onCommentsChanged }) => {
+    const { id, title, content, image, images, author, createdAt, updatedAt } = post;
 
     const [data, setData] = useState<ComemntRequest>({
         content: "",
@@ -28,8 +30,8 @@ const PopupPostComment: React.FC<PopupPostProps> = ({ post, onClose, onCommentAd
             const response = await commentService.comment(id, data);
             if (response.success) {
                 setData({ content: "" });
-                await handleFetchComment(id);
-                onCommentAdded?.();
+                invalidateComments(id);
+                await handleFetchComment(id, true);
             }
         } catch (e: any) {
             console.log("error posting comment", e);
@@ -38,12 +40,11 @@ const PopupPostComment: React.FC<PopupPostProps> = ({ post, onClose, onCommentAd
         }
     }
 
-    const handleFetchComment = async (id: number) => {
+    const handleFetchComment = async (id: number, force = false) => {
         try {
-            const response = await commentService.allComment(id);
-            if (response.success && response.data) {
-                setComments(response.data);
-            }
+            const nextComments = await getCachedComments(id, post.comments, force);
+            setComments(nextComments);
+            onCommentsChanged?.(nextComments);
         } catch (e) {
             console.log("error fetching comments", e);
         }
@@ -75,21 +76,7 @@ const PopupPostComment: React.FC<PopupPostProps> = ({ post, onClose, onCommentAd
                 </button>
                 {/* Scrollable Content */}
                 <div className="overflow-y-auto flex-1 custom-scrollbar">
-                    {image && (
-                        <div className="w-full bg-zinc-50 border-b border-zinc-100">
-                            {image.endsWith('.mp4') ? (
-                                <video controls autoPlay className="w-full max-h-[50vh] object-contain mx-auto">
-                                    <source src={image} type="video/mp4" />
-                                </video>
-                            ) : (
-                                <img
-                                    src={image}
-                                    alt={title}
-                                    className="w-full max-h-[50vh] object-contain mx-auto"
-                                />
-                            )}
-                        </div>
-                    )}
+                    <PostMediaGallery images={images} image={image} title={title} className="rounded-none border-x-0 border-t-0" />
 
                     <div className="p-6">
                         {/* Author Info */}

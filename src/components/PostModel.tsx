@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react"
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react"
 import type { PostRequest } from "../types/post"
 import { X, Loader2, Send } from "lucide-react"
 import { AppContextProvider } from "../context/AppContext"
@@ -20,11 +20,14 @@ const PostModelPost: React.FC<PostModelProps> = ({ onPostCreated }) => {
 
   const { setIsPostModelOpen } = useContext<any>(AppContextProvider);
   const modelRef = useRef<any>(null);
-  const [image, setImage] = useState<any>(null);
+  const [files, setFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const previews = useMemo(() => files.map((file) => ({ file, url: URL.createObjectURL(file) })), [files]);
 
-  const handleImageUplaod = (data: any) => {
-    setImage(data);
+  useEffect(() => () => previews.forEach(({ url }) => URL.revokeObjectURL(url)), [previews]);
+
+  const handleFilesUpload = (newFiles: File[]) => {
+    setFiles((currentFiles) => [...currentFiles, ...newFiles]);
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -32,21 +35,19 @@ const PostModelPost: React.FC<PostModelProps> = ({ onPostCreated }) => {
     setData((prev) => ({ ...prev, [name]: value }));
   }
 
-  const removeImage = () => {
-    setImage(null);
+  const removeFile = (index: number) => {
+    setFiles((currentFiles) => currentFiles.filter((_, fileIndex) => fileIndex !== index));
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!data.title.trim() && !data.content.trim()) return;
+    if (!data.title.trim() && !data.content.trim() && files.length === 0) return;
 
     setIsLoading(true);
     const form = new FormData();
     form.append("title", data.title);
     form.append("content", data.content);
-    if (image) {
-      form.append("file", image);
-    }
+    files.forEach((file) => form.append("files", file));
 
     try {
       const response = await postService.create(form);
@@ -112,40 +113,31 @@ const PostModelPost: React.FC<PostModelProps> = ({ onPostCreated }) => {
               ></textarea>
             </div>
 
-            {/* Image Preview */}
-            {image && (
-              <div className="relative rounded-md overflow-hidden border border-zinc-100 bg-zinc-50 group">
-                <button
-                  type="button"
-                  onClick={removeImage}
-                  className="absolute top-2 right-2 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-full transition-colors opacity-0 group-hover:opacity-100 z-10"
-                >
-                  <X size={16} />
-                </button>
-                {image.type.startsWith("video") || image.name.endsWith(".mp4") ? (
-                  <video
-                    controls
-                    className="w-full h-48 sm:h-64 object-contain bg-black"
-                    src={URL.createObjectURL(image)}
-                  />
-                ) : (
-                  <img
-                    className="w-full h-48 sm:h-64 object-contain bg-zinc-100"
-                    src={URL.createObjectURL(image)}
-                    alt="Preview"
-                  />
-                )}
-                <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <p className="text-white text-xs truncate max-w-[90%]">{image.name}</p>
-                </div>
+            {previews.length > 0 && (
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                {previews.map(({ file, url }, index) => (
+                  <div key={url} className="relative aspect-square overflow-hidden rounded-md border border-zinc-100 bg-zinc-100 group">
+                    <button
+                      type="button"
+                      onClick={() => removeFile(index)}
+                      className="absolute top-2 right-2 z-10 rounded-full bg-black/60 p-1.5 text-white transition-colors hover:bg-black/80"
+                      aria-label={`Remove ${file.name}`}
+                    >
+                      <X size={16} />
+                    </button>
+                    {file.type.startsWith("video/") ? (
+                      <video controls className="h-full w-full object-cover bg-black" src={url} />
+                    ) : (
+                      <img className="h-full w-full object-cover" src={url} alt={file.name} />
+                    )}
+                  </div>
+                ))}
               </div>
             )}
 
-            {!image && (
-              <div className="border-2 border-dashed border-zinc-200 rounded-md hover:border-indigo-400/50 hover:bg-indigo-50/30 transition-colors">
-                <FileDropzone sendImage={handleImageUplaod} isMinimal={true} />
-              </div>
-            )}
+            <div className="border-2 border-dashed border-zinc-200 rounded-md hover:border-indigo-400/50 hover:bg-indigo-50/30 transition-colors">
+              <FileDropzone sendFiles={handleFilesUpload} isMinimal={true} />
+            </div>
           </div>
 
           {/* Footer Actions */}
@@ -158,10 +150,10 @@ const PostModelPost: React.FC<PostModelProps> = ({ onPostCreated }) => {
 
             <button
               type="submit"
-              disabled={(!data.title && !data.content && !image) || isLoading}
+              disabled={(!data.title && !data.content && files.length === 0) || isLoading}
               className={`
                     flex items-center space-x-2 px-6 py-2.5 rounded-md font-medium text-sm transition-all
-                    ${(!data.title && !data.content && !image) || isLoading
+                    ${(!data.title && !data.content && files.length === 0) || isLoading
                   ? 'bg-zinc-200 text-zinc-400 cursor-not-allowed'
                   : 'bg-zinc-900 text-white hover:bg-zinc-800 shadow-lg shadow-zinc-200 hover:shadow-xl'}
                 `}

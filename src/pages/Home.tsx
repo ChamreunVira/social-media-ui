@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react"
-import { postService } from "../service/PostService";
 import { friendService } from "../service/friendService";
 import { toast } from "react-toastify";
 import type { PostResponse } from "../types/post";
@@ -14,6 +13,8 @@ import PostModelPost from "../components/PostModel.tsx";
 import Friends from "../components/Friends.tsx";
 import UserProfileModal from "../components/ProfileModal.tsx";
 import { useNavigate } from "react-router-dom";
+import { X } from "lucide-react";
+import { getCachedFeed, invalidateFeed, removeCachedPost } from "../lib/postCache";
 
 const Home = () => {
     const [posts, setPosts] = useState<PostResponse[]>([]);
@@ -21,16 +22,15 @@ const Home = () => {
     const [pending, setPending] = useState<FriendSenderResponse[]>([]);
     const [loading, setLoading] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+    const [isFriendsOpen, setIsFriendsOpen] = useState(false);
     const { userProfile, isPostModelOpen, setIsPostModelOpen, searchQuery } = useContext<any>(AppContextProvider);
     const navigate = useNavigate();
 
-    const handleFetchPost = async () => {
+    const handleFetchPost = async (force = false) => {
         setLoading(true);
         try {
-            const response = await postService.getAll();
-            if (response.success) {
-                setPosts(response.data);
-            }
+            const nextPosts = await getCachedFeed(force);
+            setPosts(nextPosts);
         } catch (e: any) {
             toast.error(e.message);
         } finally {
@@ -53,9 +53,7 @@ const Home = () => {
     };
 
     useEffect(() => {
-        const controller = new AbortController();
         handleFetchPost();
-        return () => controller.abort();
     }, []);
 
     useEffect(() => {
@@ -83,8 +81,8 @@ const Home = () => {
                 {loading && (<Mosaic color="#3e59f8" size="large" text="" textColor="" />)}
             </div>
             <div className="w-full">
-                <Navbar />
-                <section className="flex justify-center gap-6 app-container pt-6 pb-10">
+                <Navbar onOpenFriends={() => setIsFriendsOpen(true)} />
+                <section className="flex justify-center gap-4 lg:gap-6 app-container pt-4 sm:pt-6 pb-10">
                     {/* Left Sidebar - Hidden on Mobile/Tablet */}
                     <aside className="hidden lg:flex w-72 flex-col gap-y-6 sticky top-24 h-fit shrink-0">
                         {/* profile */}
@@ -129,23 +127,28 @@ const Home = () => {
 
                         {/* Posts Feed */}
                         <div className="flex flex-col gap-4">
-                            {filteredPosts.map((post, i) => (
+                            {filteredPosts.map((post) => (
                                 <PostCard
-                                    key={i}
+                                    key={post.id}
                                     profile={userProfile}
                                     id={post.id}
                                     title={post.title}
                                     content={post.content}
                                     image={post.image}
+                                    images={post.images}
                                     author={post.author}
                                     comments={post.comments}
                                     like={post.like}
                                     likeByMe={post.likeByMe}
-                                    createdAt={post.updatedAt}
+                                    createdAt={post.createdAt}
                                     updatedAt={post.updatedAt}
                                     currentUserId={userProfile?.id}
                                     isFriend={friendUserIds.includes(post.author.userId)}
                                     isPending={pendingSenderIds.includes(post.author.userId)}
+                                    onDeleted={(postId) => {
+                                        removeCachedPost(postId);
+                                        setPosts((currentPosts) => currentPosts.filter((currentPost) => currentPost.id !== postId));
+                                    }}
                                 />
                             ))}
                             {filteredPosts.length === 0 && !loading && (
@@ -179,7 +182,42 @@ const Home = () => {
                     </aside>
                 </section>
             </div>
-            {isPostModelOpen && <PostModelPost onPostCreated={handleFetchPost} />}
+            {isPostModelOpen && <PostModelPost onPostCreated={() => {
+                invalidateFeed();
+                handleFetchPost(true);
+            }} />}
+            {isFriendsOpen && (
+                <div
+                    className="fixed inset-0 z-50 flex items-end bg-zinc-950/40 xl:hidden sm:items-center sm:justify-center"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="friends-drawer-title"
+                    onClick={() => setIsFriendsOpen(false)}
+                >
+                    <div
+                        className="max-h-[88dvh] w-full overflow-y-auto rounded-t-2xl bg-zinc-50 p-4 shadow-2xl sm:max-h-[80vh] sm:max-w-lg sm:rounded-2xl"
+                        onClick={(event) => event.stopPropagation()}
+                    >
+                        <div className="mb-4 flex items-center justify-between">
+                            <h2 id="friends-drawer-title" className="text-lg font-semibold text-zinc-900">Friends</h2>
+                            <button
+                                type="button"
+                                onClick={() => setIsFriendsOpen(false)}
+                                className="rounded-full p-2 text-zinc-500 transition-colors hover:bg-zinc-200 hover:text-zinc-800"
+                                aria-label="Close friends"
+                            >
+                                <X className="h-5 w-5" />
+                            </button>
+                        </div>
+                        <Friends
+                            onSelectUser={(id) => {
+                                setSelectedUserId(id);
+                                setIsFriendsOpen(false);
+                            }}
+                        />
+                    </div>
+                </div>
+            )}
             {selectedUserId && (
                 <UserProfileModal
                     userId={selectedUserId}

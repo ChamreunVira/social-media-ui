@@ -157,7 +157,17 @@ const ProfileForm = () => {
                     <h1 className="px-12 pb-6 text-2xl font-bold text-zinc-900">កែប្រែ Profile</h1>
                 </div>
 
-                <form onSubmit={handleSubmit} className="px-12 pt-6 max-w-2xl flex flex-col gap-5">
+                <form onSubmit={handleSubmit} className="px-12 pt-6 ma
+            if (response.success && response.data) {
+                toast.success('Profile updated!');
+                const nicknameForRoute = response.data.nickname?.replace(/^@/, '') || form.nickname.replace(/^@/, '');
+                navigate(`/profile/${nicknameForRoute}`);
+            }
+        } catch (err: any) {
+            toast.error(err?.response?.data?.message || err.message || 'Failed to update profile');
+        } finally {
+            setSaving(false);
+        }x-w-2xl flex flex-col gap-5">
                     <p className="text-sm text-zinc-500 -mt-2">
                         Fill in the details you'd like other people to see on your profile.
                     </p>

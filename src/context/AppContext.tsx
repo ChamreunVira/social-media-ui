@@ -25,21 +25,23 @@ const AppContext: React.FC<React.PropsWithChildren> = ({ children }) => {
         }
     }
 
-    const HandleIsUserAuthenticated = async () => {
-        const isAuthenticated = await atuhService.isAuthenticated();
-        if (isAuthenticated) {
-            handleUserProfile();
-            setIsLoggedIn(true);
-        } else {
+    const handleIsUserAuthenticated = async () => {
+        try {
+            const isAuthenticated = await atuhService.isAuthenticated();
+            if (isAuthenticated) {
+                await handleUserProfile();
+                setIsLoggedIn(true);
+            } else {
+                navigate("/login");
+            }
+        } catch {
             navigate("/login");
         }
-    }
+    };
 
     useEffect(() => {
-        const abord = new AbortController();
-        HandleIsUserAuthenticated();
-        return abord.abort();
-    }, [isLoggedIn]);
+        handleIsUserAuthenticated();
+    }, [navigate]);
 
     const contextValue = {
         isLoggedIn, setIsLoggedIn,

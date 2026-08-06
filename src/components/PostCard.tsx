@@ -1,4 +1,4 @@
-import { AlertTriangle, Heart, MessageCircleMore, UserPlus2, UserCheck, Clock, Trash } from "lucide-react"
+import { AlertTriangle, Heart, MessageCircleMore, UserPlus2, UserCheck, Clock, Trash, Share2, ExternalLink } from "lucide-react"
 import type React from "react"
 import type { PostResponse } from "../types/post";
 import { useState } from "react";
@@ -7,14 +7,17 @@ import { toast } from "react-toastify";
 import PopupPostComment from "./CommentModal.";
 import { friendService } from "../service/friendService";
 import { useNavigate } from "react-router-dom";
+import PostMediaGallery from "./PostMediaGallery";
+import { updateCachedPost } from "../lib/postCache";
 
 interface PostCardProps extends PostResponse {
     isFriend?: boolean;
     isPending?: boolean;
     currentUserId?: number;
+    onDeleted?: (postId: number) => void;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image, author, comments, like, likeByMe, createdAt, updatedAt, isFriend, isPending, currentUserId }) => {
+const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image, images, author, comments, like, likeByMe, createdAt, updatedAt, isFriend, isPending, currentUserId, onDeleted }) => {
 
     const [isLike, setIsLike] = useState<boolean | undefined>(likeByMe);
     const [likeCount, setLikeCount] = useState<number>(like);
@@ -27,6 +30,7 @@ const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image,
             const response = await postService.delete(id);
             if (response.success) {
                 toast.success("Post deleted successfully.");
+                onDeleted?.(id);
             }
         } catch (e) {
             toast.error("You don't have permission to delete this post.");
@@ -40,13 +44,31 @@ const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image,
         setLikeCount(prev => prevIsLike ? prev - 1 : prev + 1);
         setIsLike(!isLike);
         try {
-            postService.toggleLike(id);
+            await postService.toggleLike(id);
+            updateCachedPost(id, { like: prevIsLike ? likeCount - 1 : likeCount + 1, likeByMe: !prevIsLike });
         } catch (e) {
             setIsLike(prevIsLike);
             setLikeCount(prevLikeCount);
             console.log(e);
         }
     }
+
+    const handleShare = async () => {
+        const shareUrl = `${window.location.origin}/posts/${id}`;
+        const shareData = { title: title || "KH Social post", text: content || title, url: shareUrl };
+        try {
+            if (navigator.share) {
+                await navigator.share(shareData);
+            } else if (navigator.clipboard) {
+                await navigator.clipboard.writeText(shareUrl);
+                toast.success("Post link copied to your clipboard.");
+            } else {
+                window.prompt("Copy this post link", shareUrl);
+            }
+        } catch (error: any) {
+            if (error?.name !== "AbortError") toast.error("Unable to share this post.");
+        }
+    };
 
     const handleSendFriendRequest = async (id: number) => {
         try {
@@ -117,25 +139,7 @@ const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image,
                     <h2 className="text-xl font-bold text-zinc-900 mb-1">{title}</h2>
                     <p className="text-zinc-700 text-sm leading-relaxed whitespace-pre-wrap">{content}</p>
                 </div>
-                {image && (
-                    <div className="max-h-96 bg-zinc-900/5 rounded-xl overflow-hidden border border-zinc-100 flex items-center justify-center">
-                        {image.endsWith(".mp4") ? (
-                            <video
-                                controls
-                                className="w-full max-h-96 object-contain"
-                                preload="metadata"
-                            >
-                                <source src={image} type="video/mp4,video/webm" />
-                            </video>
-                        ) : (
-                            <img
-                                src={image}
-                                alt={title}
-                                className="w-full max-h-96 object-contain hover:scale-102 transition-transform duration-200 cursor-pointer"
-                            />
-                        )}
-                    </div>
-                )}
+                <PostMediaGallery postId={id} images={images} image={image} title={title} />
                 <div className="flex justify-between items-center pt-2 border-t border-zinc-50">
                     <button
                         onClick={() => handleLike(id)}
@@ -149,17 +153,23 @@ const PostCard: React.FC<PostCardProps> = ({ id, profile, title, content, image,
                         <MessageCircleMore size={20} />
                         <span>{commentCount}</span>
                     </button>
-                    <button className="text-zinc-400 hover:text-amber-500 transition-colors">
-                        <AlertTriangle size={18} />
+                    {/* <button onClick={() => navigate(`/posts/${id}`)} className="text-zinc-600 hover:text-indigo-600 transition-colors" title="View post details" aria-label="View post details">
+                        <ExternalLink size={18} />
+                    </button> */}
+                    <button onClick={handleShare} className="text-zinc-600 hover:text-indigo-600 transition-colors" title="Share post" aria-label="Share post">
+                        <Share2 size={18} />
                     </button>
                 </div>
             </div>
 
             {comment && (
                 <PopupPostComment
-                    post={{ id, profile, title, content, image, author, like: likeCount, likeByMe: !!isLike, createdAt, updatedAt }}
+                    post={{ id, profile, title, content, image, images, author, comments, like: likeCount, likeByMe: !!isLike, createdAt, updatedAt }}
                     onClose={() => setComment(false)}
-                    onCommentAdded={() => setCommentCount(prev => prev + 1)}
+                    onCommentsChanged={(nextComments) => {
+                        setCommentCount(nextComments.length);
+                        updateCachedPost(id, { comments: nextComments });
+                    }}
                 />
             )}
         </>
