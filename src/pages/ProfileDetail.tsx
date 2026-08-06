@@ -23,8 +23,6 @@ import { postService } from '../service/PostService';
 import { friendService } from '../service/friendService';
 import { AppContextProvider } from '../context/AppContext';
 
-const apiUrl = import.meta.env.VITE_API_URL;
-
 const ProfileDetail = () => {
     const { nickname } = useParams<{ nickname: string }>();
     const navigate = useNavigate();
